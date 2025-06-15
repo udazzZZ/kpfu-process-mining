@@ -1,0 +1,24 @@
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.formInputs {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.links {
+    font-size: 14px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.linkBlue {
+    color: var(--accent-blue);
+}
