@@ -7,7 +7,7 @@ import type { Size } from './BasicButton.types';
 
 type BasicButtonProps = PropsWithChildren & {
     size?: Size;
-    onClick: () => void;
+    onClick: React.MouseEventHandler<HTMLButtonElement>;
     className?: string;
 };
 
