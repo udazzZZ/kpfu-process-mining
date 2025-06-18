@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { useState, type ChangeEventHandler, type FC } from 'react';
 // import { useForm } from 'react-hook-form';
 import { TextField } from 'shared/ui/fields';
 
@@ -8,18 +8,34 @@ import { Link } from 'react-router';
 import { ROUTES } from 'shared/constants';
 
 export const LoginForm: FC = () => {
-    // const { register } = useForm();
+    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
 
     const onClick = () => {};
+
+    const onChangeEmail: ChangeEventHandler<HTMLInputElement> = (event) => {
+        setEmail(event.target.value);
+    };
+
+    const onChangeUsername: ChangeEventHandler<HTMLInputElement> = (event) => {
+        setUsername(event.target.value);
+    };
 
     return (
         <>
             <form className={styles.form}>
                 <div className={styles.formInputs}>
-                    <TextField label="Email" placeholder="Введите ваш email" />
+                    <TextField
+                        label="Email"
+                        placeholder="Введите ваш email"
+                        onChange={onChangeEmail}
+                        value={email}
+                    />
                     <TextField
                         label="Пароль"
                         placeholder="Введите ваш пароль"
+                        onChange={onChangeUsername}
+                        value={username}
                     />
                 </div>
                 <BasicButton onClick={onClick} size="l">
