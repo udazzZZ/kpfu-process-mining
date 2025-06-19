@@ -1,22 +1,22 @@
-import { useState, type ChangeEventHandler, type FC } from 'react';
+import { useState, type ChangeEventHandler, type FC } from "react";
 // import { useForm } from 'react-hook-form';
-import { TextField } from 'shared/ui/fields';
+import { TextField } from "shared/ui/fields";
 
-import styles from './RegisterForm.module.css';
-import { BasicButton } from 'shared/ui/buttons';
-import { ROUTES } from 'shared/constants';
-import { Link, useNavigate } from 'react-router';
-import { useAppDispatch } from 'shared/hooks/useAppDispatch';
-import { userModel } from 'entities/user';
+import styles from "./RegisterForm.module.css";
+import { BasicButton } from "shared/ui/buttons";
+import { ROUTES } from "shared/constants";
+import { Link, useNavigate } from "react-router";
+import { useAppDispatch } from "shared/hooks/useAppDispatch";
+import { userModel } from "entities/user";
 
 export const RegisterForm: FC = () => {
     const dispatch = useAppDispatch();
 
     const navigate = useNavigate();
 
-    const [email, setEmail] = useState('');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
     const onClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
         event.preventDefault();
@@ -30,7 +30,7 @@ export const RegisterForm: FC = () => {
                 })
             );
 
-            navigate(ROUTES.PROJECTS_PATH);
+            navigate(`${ROUTES.AUTH_PATH}/${ROUTES.LOGIN_PATH}`);
         } catch (e) {
             console.log((e as Error).message);
         }
