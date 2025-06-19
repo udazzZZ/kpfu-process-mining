@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Outlet } from "react-router";
 import { ROUTES } from "shared/constants";
 
 const AuthPage = lazy(async () => await import("pages/authorization"));
@@ -10,7 +10,7 @@ const JournalPage = lazy(async () => await import("pages/journal"));
 const SettingsPage = lazy(async () => await import("pages/file-settings"));
 const MarksPage = lazy(async () => await import("pages/marks"));
 const FinalPage = lazy(async () => await import("pages/final"));
-const Projects = lazy(async () => await import('pages/projects'));
+const Projects = lazy(async () => await import("pages/projects"));
 
 const routerElements = {
     [ROUTES.AUTH_PATH]: (
@@ -30,7 +30,7 @@ const routerElements = {
             <Register />
         </Suspense>
     ),
-      
+
     [ROUTES.IMPORT_PATH]: (
         <Suspense>
             <ImportPage />
@@ -58,9 +58,9 @@ const routerElements = {
     [ROUTES.FINAL_PATH]: (
         <Suspense>
             <FinalPage />
-        </Suspence>
+        </Suspense>
     ),
-        
+
     [ROUTES.PROJECTS_PATH]: (
         <Suspense>
             <Projects />
@@ -70,7 +70,7 @@ const routerElements = {
 
 export const router = createBrowserRouter([
     {
-        path: '/',
+        path: "/",
         element: <Outlet />,
         children: [
             {
