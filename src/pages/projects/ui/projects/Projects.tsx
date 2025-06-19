@@ -1,12 +1,12 @@
-import { useAppSelector } from 'shared/hooks/useAppSelector';
-import { selectProjects } from '../../model/selectors';
-import { useEffect } from 'react';
-import { useAppDispatch } from 'shared/hooks/useAppDispatch';
-import { getProjectsAsync } from '../../model/asyncThunks/getProjectsAsync';
+import { useAppSelector } from "shared/hooks/useAppSelector";
+import { selectProjects } from "../../model/selectors";
+import { useEffect } from "react";
+import { useAppDispatch } from "shared/hooks/useAppDispatch";
+import { getProjectsAsync } from "../../model/asyncThunks/getProjectsAsync";
 
-import styles from './Projects.module.css';
-import { CreateProjectForm } from '../createProjectForm/CreateProjectForm';
-import { ProjectItem } from '../projectItem';
+import styles from "./Projects.module.css";
+import { CreateProjectForm } from "../createProjectForm/CreateProjectForm";
+import { ProjectItem } from "../projectItem";
 
 const Projects = () => {
     const dispatch = useAppDispatch();
@@ -20,9 +20,10 @@ const Projects = () => {
         <div className={styles.container}>
             <CreateProjectForm />
             <div className="">
-                {projects.map((project) => (
-                    <ProjectItem {...project} key={project.name} />
-                ))}
+                {projects &&
+                    projects.map((project) => (
+                        <ProjectItem {...project} key={project.name} />
+                    ))}
             </div>
         </div>
     );

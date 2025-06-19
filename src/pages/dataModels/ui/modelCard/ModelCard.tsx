@@ -19,6 +19,9 @@ export const ModelCard: React.FC<ModelCardProps> = ({ model, onClick }) => {
             role="button"
             tabIndex={0}
         >
+            <div className={styles.date}>
+                <p className={styles.dateText}>Дата изменения</p>
+            </div>
             <div className={styles.name}>{model.name}</div>
         </div>
     );

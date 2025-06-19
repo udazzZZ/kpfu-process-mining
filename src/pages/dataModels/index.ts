@@ -1,1 +1,1 @@
-export { default } from "./ui/DataModels";
+export { default } from "./ui/dataModels/DataModels";

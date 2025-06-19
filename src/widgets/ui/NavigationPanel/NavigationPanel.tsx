@@ -1,14 +1,22 @@
 import type { FC } from "react";
-import styles from "./NavigationPanel.module.scss";
+import styles from "./NavigationPanel.module.css";
 import { NavLink } from "react-router";
 import projectIcon from "../../../../public/projects-icon.svg";
-import dataModelIcon from "../../../../public/data-model-icon.svg";
+import dataModelIcon from "../../../../public/models-icon.svg";
 import helpIcon from "../../../../public/help-icon.svg";
 import profileIcon from "../../../../public/profile-icon.svg";
 
-export const NavigationPanel: FC = () => {
+interface NavigationPanelProps {
+    isVisible: boolean;
+}
+
+export const NavigationPanel: FC<NavigationPanelProps> = ({ isVisible }) => {
     return (
-        <div className={styles.panel}>
+        <div
+            className={`${styles.panel} ${
+                isVisible ? styles.panelVisible : ""
+            }`}
+        >
             <div className={styles.logo}>
                 <span className={styles.blue}>ITIS</span> Process Mining
             </div>
@@ -20,7 +28,7 @@ export const NavigationPanel: FC = () => {
                         isActive ? styles.active : ""
                     }
                 >
-                    <img src={projectIcon}></img>
+                    <img src={projectIcon} alt="Projects" />
                     Проекты
                 </NavLink>
                 <NavLink
@@ -29,7 +37,7 @@ export const NavigationPanel: FC = () => {
                         isActive ? styles.active : ""
                     }
                 >
-                    <img src={dataModelIcon}></img>
+                    <img src={dataModelIcon} alt="Data Models" />
                     Модели данных
                 </NavLink>
             </nav>
@@ -41,11 +49,11 @@ export const NavigationPanel: FC = () => {
                         isActive ? styles.active : ""
                     }
                 >
-                    <img src={helpIcon}></img>
+                    <img src={helpIcon} alt="Help" />
                     Справка
                 </NavLink>
                 <div className={styles.user}>
-                    <img src={profileIcon}></img>
+                    <img src={profileIcon} alt="Profile" />
                     Иванов Иван
                 </div>
             </div>

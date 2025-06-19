@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./DataModels.module.css";
-import { Header } from "./Header";
-import { Models } from "./Models";
+import { Models } from "../models/Models";
+import Header from "pages/import/ui/header/Header";
 
 const models = [
     {
@@ -33,12 +33,7 @@ const DataModels: React.FC = () => {
 
     return (
         <div className={styles.container}>
-            <Header
-                searchValue={search}
-                sortKey={sortKey}
-                onSearch={setSearch}
-                onSortChange={setSortKey}
-            />
+            <Header />
             <Models
                 models={models}
                 isLoading={isLoading}

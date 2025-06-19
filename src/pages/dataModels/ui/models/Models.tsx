@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Models.module.css";
-import { ModelCard } from "./ModelCard";
-import { CreateModelButton } from "./CreateModelButton";
+import { ModelCard } from "../modelCard/ModelCard";
+import { CreateModelButton } from "../createModelButton/CreateModelButton";
 
 type Model = {
     name: string;

@@ -35,8 +35,9 @@ const routerElements = {
     [ROUTES.MODELS_PATH]: (
         <Suspense>
             <Models />
-        </Suspence>
-        
+        </Suspense>
+    ),
+
     [ROUTES.IMPORT_PATH]: (
         <Suspense>
             <ImportPage />
