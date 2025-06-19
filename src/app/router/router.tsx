@@ -5,6 +5,7 @@ import { ROUTES } from "shared/constants";
 const AuthPage = lazy(async () => await import("pages/authorization"));
 const Login = lazy(async () => await import("pages/login"));
 const Register = lazy(async () => await import("pages/register"));
+const Models = lazy(async () => await import("pages/dataModels"));
 const ImportPage = lazy(async () => await import("pages/import"));
 const JournalPage = lazy(async () => await import("pages/journal"));
 const SettingsPage = lazy(async () => await import("pages/file-settings"));
@@ -31,6 +32,11 @@ const routerElements = {
         </Suspense>
     ),
 
+    [ROUTES.MODELS_PATH]: (
+        <Suspense>
+            <Models />
+        </Suspence>
+        
     [ROUTES.IMPORT_PATH]: (
         <Suspense>
             <ImportPage />
@@ -115,5 +121,9 @@ export const router = createBrowserRouter([
                 element: routerElements[ROUTES.FINAL_PATH],
             },
         ],
+    },
+    {
+        path: ROUTES.MODELS_PATH,
+        element: routerElements[ROUTES.MODELS_PATH],
     },
 ]);
