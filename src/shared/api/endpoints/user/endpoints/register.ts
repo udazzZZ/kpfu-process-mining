@@ -1,4 +1,9 @@
-import { apiPost } from "../../../methods";
+import {
+    setAccessToken,
+    setRefreshToken,
+} from 'shared/api/instance/instance.tokens';
+import { apiPost } from '../../../methods';
+import { createJwt } from '../../jwt/endpoints/createJwt';
 
 export type RegisterBody = {
     email?: string;
@@ -14,5 +19,18 @@ export type RegisterPayload = {
     body: RegisterBody;
 };
 
-export const register = async ({ body }: RegisterPayload) =>
-    await apiPost<RegisterResponse, RegisterBody>("/users", body);
+export const register = async ({ body }: RegisterPayload) => {
+    const {
+        data,
+        data: { username, password },
+    } = await apiPost<RegisterResponse, RegisterBody>('auth/users/', body);
+
+    const {
+        data: { access, refresh },
+    } = await createJwt({ username, password });
+
+    setAccessToken(access);
+    setRefreshToken(refresh);
+
+    return data;
+};

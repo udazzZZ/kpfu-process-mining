@@ -1,0 +1,14 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+
+    padding: 36px;
+    background-color: var(--bg-panel);
+}
+
+.formInputs {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
