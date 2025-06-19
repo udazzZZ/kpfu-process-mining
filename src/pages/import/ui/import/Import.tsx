@@ -5,10 +5,16 @@ import styles from "./Import.module.css";
 import SidePanel from "../sidePanel/SidePanel";
 import { ButtonWithArrow } from "shared/ui/buttons/BackForwardButton/ButtonWithArrow";
 import { stepToIndex } from "pages/import/lib/steps";
+import {
+    fileSettingsData,
+    saveFileSettings,
+} from "pages/file-settings/FileSettings";
+import { useState } from "react";
 
 const Import: FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const [isSaving, setIsSaving] = useState(false);
     const pathSegments = location.pathname.split("/");
     const currentPage =
         pathSegments.length > 1 ? pathSegments[pathSegments.length - 1] : "";
@@ -16,6 +22,7 @@ const Import: FC = () => {
     const currentStepIndex = stepToIndex[currentPage] || 0;
     const isFirstStep = currentStepIndex === 0;
     const isLastStep = currentStepIndex === 3;
+    const isFileSettingsPage = currentPage === "file-settings";
 
     const handleBack = () => {
         if (isFirstStep) return;
@@ -25,12 +32,37 @@ const Import: FC = () => {
         navigate(`/import/${previousStep}`);
     };
 
-    const handleForward = () => {
+    const handleForward = async () => {
         if (isLastStep) return;
-        const nextStep = Object.keys(stepToIndex).find(
-            (step) => stepToIndex[step] === currentStepIndex + 1
-        );
-        navigate(`/import/${nextStep}`);
+
+        // Если мы на странице настройки файла, сначала сохраняем настройки
+        if (isFileSettingsPage && fileSettingsData.isDataReady) {
+            setIsSaving(true);
+
+            try {
+                await saveFileSettings(
+                    fileSettingsData.columnTypes,
+                    fileSettingsData.fileInfoId
+                );
+
+                // Переходим к следующему шагу после успешного сохранения
+                const nextStep = Object.keys(stepToIndex).find(
+                    (step) => stepToIndex[step] === currentStepIndex + 1
+                );
+                navigate(`/import/${nextStep}`);
+            } catch (error) {
+                console.error("Ошибка при сохранении настроек файла:", error);
+                // Здесь можно добавить отображение ошибки для пользователя
+            } finally {
+                setIsSaving(false);
+            }
+        } else {
+            // Для других страниц просто переходим к следующему шагу
+            const nextStep = Object.keys(stepToIndex).find(
+                (step) => stepToIndex[step] === currentStepIndex + 1
+            );
+            navigate(`/import/${nextStep}`);
+        }
     };
 
     return (
@@ -44,11 +76,14 @@ const Import: FC = () => {
                         <ButtonWithArrow
                             direction="left"
                             onClick={handleBack}
-                        ></ButtonWithArrow>
+                            disabled={isFirstStep || isSaving}
+                        />
                         <ButtonWithArrow
                             direction="right"
                             onClick={handleForward}
-                        ></ButtonWithArrow>
+                            disabled={isLastStep || isSaving}
+                            loading={isSaving}
+                        />
                     </div>
                 </div>
             </div>

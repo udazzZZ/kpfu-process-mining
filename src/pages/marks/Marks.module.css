@@ -1,0 +1,250 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: var(--bg-panel);
+    border-radius: 11px;
+    padding: 16px;
+    height: 544px;
+    box-shadow: 0 4px 4px -4px rgba(12, 12, 13, 0.05),
+        0 16px 32px -4px rgba(12, 12, 13, 0.1);
+}
+
+.title {
+    font-weight: 500;
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: var(--text);
+}
+
+.subtitle {
+    font-size: 16px;
+    color: var(--text-gray);
+    margin-bottom: 20px;
+}
+
+.indicators {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.indicator {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-gray);
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+    border: 1px solid var(--bg-gray-dark);
+    transition: all 0.2s ease;
+}
+
+.indicator:hover {
+    background-color: var(--accent-skyblue-light);
+    border-color: var(--accent-blue);
+}
+
+.indicatorAssigned {
+    background-color: var(--accent-skyblue);
+    border-color: var(--accent-blue);
+    opacity: 0.7;
+    text-decoration: line-through;
+}
+
+.indicatorContent {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.infoIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: var(--accent-blue);
+    color: var(--text-white);
+    font-size: 12px;
+    font-weight: bold;
+    cursor: help;
+}
+
+.markAllBtn {
+    background-color: transparent;
+    color: var(--accent-blue);
+    border: 1px dashed var(--accent-blue);
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.markAllBtn:hover {
+    background-color: rgba(0, 122, 255, 0.05);
+}
+
+.tableWrapper {
+    width: 100%;
+    height: 320px; /* Высота с учетом остальных элементов */
+    overflow: auto;
+    border: 1px solid var(--bg-gray-dark);
+    border-radius: 8px;
+    position: relative; /* Для корректной работы sticky заголовков */
+}
+
+/* Кастомизация скролла - минималистичный стиль */
+/* Для WebKit (Chrome, Safari) */
+.tableWrapper::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.tableWrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(151, 151, 151, 0.5);
+    border-radius: 4px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(151, 151, 151, 0.8);
+}
+
+.tableWrapper::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+/* Для Firefox */
+.tableWrapper {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(151, 151, 151, 0.5) transparent;
+}
+
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: 800px;
+}
+
+.table th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: var(--bg-gray);
+    padding: 0;
+    min-width: 150px; /* Минимальная ширина колонки */
+    width: 150px; /* Фиксированная ширина колонки */
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+/* Разные ширины колонок в зависимости от типа данных */
+.smallColumn {
+    width: 100px !important;
+    min-width: 100px !important;
+}
+
+.mediumColumn {
+    width: 180px !important;
+    min-width: 180px !important;
+}
+
+.wideColumn {
+    width: 220px !important;
+    min-width: 220px !important;
+}
+
+.headerScrolling {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15) !important;
+    background-color: var(--bg-gray) !important;
+}
+
+/* Стили для колонок при перетаскивании */
+.columnDragOver {
+    background-color: rgba(0, 122, 255, 0.1) !important;
+    box-shadow: inset 0 0 0 2px var(--accent-blue) !important;
+}
+
+/* Стили для колонок с указателями */
+.columnWithIndicator th,
+.columnWithIndicator {
+    background-color: var(--accent-skyblue-light) !important;
+}
+
+.columnHeader {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 8px;
+    align-items: center;
+}
+
+.columnType {
+    font-size: 12px;
+    color: var(--text-gray);
+    background-color: var(--bg-panel);
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.columnIndicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background-color: var(--accent-blue);
+    color: var(--text-white);
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 12px;
+    width: 100%;
+    position: relative;
+}
+
+.removeIndicator {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0 4px;
+    border-radius: 50%;
+}
+
+.removeIndicator:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.table td {
+    padding: 10px;
+    border-top: 1px solid var(--bg-gray-dark);
+    text-align: center;
+    white-space: nowrap; /* Предотвращает перенос текста в ячейках */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Добавляет многоточие для обрезанного текста */
+    min-width: 150px; /* Минимальная ширина ячейки */
+    width: 150px; /* Фиксированная ширина ячейки */
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    width: 100%;
+    font-size: 18px;
+    color: var(--text-gray);
+}
