@@ -11,4 +11,4 @@ type CreateJwtResponse = {
 };
 
 export const createJwt = async (body: CreateJwtBody) =>
-    await apiPost<CreateJwtResponse, CreateJwtBody>('/jwt/create', body);
+    await apiPost<CreateJwtResponse, CreateJwtBody>('/auth/jwt/create/', body);

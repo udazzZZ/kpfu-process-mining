@@ -3,4 +3,6 @@ export {
     type RegisterResponse,
     type RegisterBody,
     type RegisterPayload,
-} from "./endpoints/register";
+} from './endpoints/register';
+
+export { login } from './endpoints/login';

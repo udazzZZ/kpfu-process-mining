@@ -23,7 +23,7 @@ export const register = async ({ body }: RegisterPayload) => {
     const {
         data,
         data: { username, password },
-    } = await apiPost<RegisterResponse, RegisterBody>('/users', body);
+    } = await apiPost<RegisterResponse, RegisterBody>('auth/users/', body);
 
     const {
         data: { access, refresh },
