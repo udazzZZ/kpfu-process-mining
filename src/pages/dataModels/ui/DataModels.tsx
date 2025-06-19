@@ -1,56 +1,52 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import styles from './DataModels.module.css';
-import { Header } from './Header';
-import { Models } from './Models';
-import { useAppDispatch, useAppSelector } from 'shared/hooks';
-import { fetchModels } from '../model/asyncThunks/fetchModelsAsync';
-import { selectModels, selectIsLoading } from '../model/selectors';
+import React, { useState } from "react";
+import styles from "./DataModels.module.css";
+import { Header } from "./Header";
+import { Models } from "./Models";
 
-export const DataModels: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const models = useAppSelector(selectModels);
-  const isLoading = useAppSelector(selectIsLoading);
+const models = [
+    {
+        name: "Модель 1",
+        id: "1",
+    },
+    {
+        name: "Модель 2",
+        id: "2",
+    },
+    {
+        name: "Модель 3",
+        id: "3",
+    },
+];
 
-  const [search, setSearch] = useState('');
-  const [sortKey, setSortKey] = useState<'name' | 'date'>('date');
+const DataModels: React.FC = () => {
+    const isLoading = false;
 
-  useEffect(() => {
-    dispatch(fetchModels());
-  }, [dispatch]);
+    const [search, setSearch] = useState("");
+    const [sortKey, setSortKey] = useState<"name" | "date">("date");
 
-  const filteredAndSorted = useMemo(() => {
-    const filtered = models.filter(m =>
-      m.name.toLowerCase().includes(search.toLowerCase())
+    const handleCardClick = (id: string) => {
+        // TODO: навигация на страницу модели
+    };
+    const handleCreateClick = () => {
+        // TODO: открыть модалку или перейти на /dataModels/create
+    };
+
+    return (
+        <div className={styles.container}>
+            <Header
+                searchValue={search}
+                sortKey={sortKey}
+                onSearch={setSearch}
+                onSortChange={setSortKey}
+            />
+            <Models
+                models={models}
+                isLoading={isLoading}
+                onCardClick={handleCardClick}
+                onCreateClick={handleCreateClick}
+            />
+        </div>
     );
-    if (sortKey === 'name') {
-      return [...filtered].sort((a, b) => a.name.localeCompare(b.name));
-    }
-    return [...filtered].sort(
-      (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-    );
-  }, [models, search, sortKey]);
-
-  const handleCardClick = (id: string) => {
-    // TODO: навигация на страницу модели
-  };
-  const handleCreateClick = () => {
-    // TODO: открыть модалку или перейти на /dataModels/create
-  };
-
-  return (
-    <div className={styles.container}>
-      <Header
-        searchValue={search}
-        sortKey={sortKey}
-        onSearch={setSearch}
-        onSortChange={setSortKey}
-      />
-      <Models
-        models={filteredAndSorted}
-        isLoading={isLoading}
-        onCardClick={handleCardClick}
-        onCreateClick={handleCreateClick}
-      />
-    </div>
-  );
 };
+
+export default DataModels;
