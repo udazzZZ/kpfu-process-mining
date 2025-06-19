@@ -3,6 +3,7 @@ import {
     setRefreshToken,
 } from 'shared/api/instance/instance.tokens';
 import { createJwt } from '../../jwt';
+import { apiGet } from 'shared/api/methods';
 
 export type LoginBody = {
     username: string;
@@ -24,4 +25,8 @@ export const login = async ({ body }: LoginPayload) => {
 
     setAccessToken(access);
     setRefreshToken(refresh);
+
+    const { data } = await apiGet<LoginResponse>('/auth/users/me');
+
+    return data;
 };

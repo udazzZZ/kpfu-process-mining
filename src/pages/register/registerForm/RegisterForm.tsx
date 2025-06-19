@@ -5,12 +5,14 @@ import { TextField } from 'shared/ui/fields';
 import styles from './RegisterForm.module.css';
 import { BasicButton } from 'shared/ui/buttons';
 import { ROUTES } from 'shared/constants';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { useAppDispatch } from 'shared/hooks/useAppDispatch';
 import { userModel } from 'entities/user';
 
 export const RegisterForm: FC = () => {
     const dispatch = useAppDispatch();
+
+    const navigate = useNavigate();
 
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
@@ -19,9 +21,19 @@ export const RegisterForm: FC = () => {
     const onClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
         event.preventDefault();
 
-        dispatch(
-            userModel.thunks.registerUserAsync({ username, email, password })
-        );
+        try {
+            dispatch(
+                userModel.thunks.registerUserAsync({
+                    username,
+                    email,
+                    password,
+                })
+            );
+
+            navigate(ROUTES.PROJECTS_PATH);
+        } catch (e) {
+            console.log((e as Error).message);
+        }
     };
 
     const onChangeEmail: ChangeEventHandler<HTMLInputElement> = (event) => {

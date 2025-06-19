@@ -4,7 +4,7 @@ import { TextField } from 'shared/ui/fields';
 
 import styles from './LoginForm.module.css';
 import { BasicButton } from 'shared/ui/buttons';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { ROUTES } from 'shared/constants';
 import { userEndpoints } from 'shared/api';
 
@@ -12,17 +12,25 @@ export const LoginForm: FC = () => {
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
 
+    const navigate = useNavigate();
+
     const onClick: React.MouseEventHandler<HTMLButtonElement> = async (
         event
     ) => {
         event.preventDefault();
 
-        await userEndpoints.login({
-            body: {
-                username,
-                password,
-            },
-        });
+        try {
+            await userEndpoints.login({
+                body: {
+                    username,
+                    password,
+                },
+            });
+
+            navigate(ROUTES.PROJECTS_PATH);
+        } catch (e) {
+            console.log((e as Error).message);
+        }
     };
 
     const onChangePassword: ChangeEventHandler<HTMLInputElement> = (event) => {
