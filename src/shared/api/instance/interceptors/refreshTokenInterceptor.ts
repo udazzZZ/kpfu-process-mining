@@ -26,7 +26,7 @@ export const refreshTokenInterceptor = (instance: AxiosInstance) => {
         try {
             const {
                 data: { access: newAccessToken, refresh: newRefreshToken },
-            } = await instance.post<RefreshResponse>('jwt/refresh', {
+            } = await instance.post<RefreshResponse>('auth/jwt/refresh/', {
                 refresh: getRefreshToken(),
             });
 
@@ -40,7 +40,7 @@ export const refreshTokenInterceptor = (instance: AxiosInstance) => {
             removeAccessToken();
             removeRefreshToken();
 
-            window.location.href = '/auth/login';
+            // window.location.href = '/auth/login';
         }
     };
     instance.interceptors.response.use(

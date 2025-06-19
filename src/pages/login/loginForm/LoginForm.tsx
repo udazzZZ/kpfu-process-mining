@@ -6,15 +6,27 @@ import styles from './LoginForm.module.css';
 import { BasicButton } from 'shared/ui/buttons';
 import { Link } from 'react-router';
 import { ROUTES } from 'shared/constants';
+import { userEndpoints } from 'shared/api';
 
 export const LoginForm: FC = () => {
-    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
 
-    const onClick = () => {};
+    const onClick: React.MouseEventHandler<HTMLButtonElement> = async (
+        event
+    ) => {
+        event.preventDefault();
 
-    const onChangeEmail: ChangeEventHandler<HTMLInputElement> = (event) => {
-        setEmail(event.target.value);
+        await userEndpoints.login({
+            body: {
+                username,
+                password,
+            },
+        });
+    };
+
+    const onChangePassword: ChangeEventHandler<HTMLInputElement> = (event) => {
+        setPassword(event.target.value);
     };
 
     const onChangeUsername: ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -26,16 +38,16 @@ export const LoginForm: FC = () => {
             <form className={styles.form}>
                 <div className={styles.formInputs}>
                     <TextField
-                        label="Email"
-                        placeholder="Введите ваш email"
-                        onChange={onChangeEmail}
-                        value={email}
+                        label="Ваше имя"
+                        placeholder="Введите ваше имя"
+                        onChange={onChangeUsername}
+                        value={username}
                     />
                     <TextField
                         label="Пароль"
                         placeholder="Введите ваш пароль"
-                        onChange={onChangeUsername}
-                        value={username}
+                        onChange={onChangePassword}
+                        value={password}
                     />
                 </div>
                 <BasicButton onClick={onClick} size="l">
