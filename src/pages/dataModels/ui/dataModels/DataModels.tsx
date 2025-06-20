@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./DataModels.module.css";
 import { Models } from "../models/Models";
-import Header from "pages/import/ui/header/Header";
+import Header from "shared/ui/header/Header";
 
 const models = [
     {

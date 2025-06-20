@@ -7,7 +7,7 @@ import { getProjectsAsync } from "../../model/asyncThunks/getProjectsAsync";
 import styles from "./Projects.module.css";
 import { CreateProjectForm } from "../createProjectForm/CreateProjectForm";
 import { ProjectItem } from "../projectItem/ProjectItem";
-import Header from "../header";
+import Header from "shared/ui/header/Header";
 
 const Projects = () => {
     const dispatch = useAppDispatch();

@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router";
-import Header from "../header/Header";
+import Header from "../../../../shared/ui/header/Header";
 import styles from "./Import.module.css";
 import SidePanel from "../sidePanel/SidePanel";
 import { ButtonWithArrow } from "shared/ui/buttons/BackForwardButton/ButtonWithArrow";
