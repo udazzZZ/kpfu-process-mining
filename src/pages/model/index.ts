@@ -1,1 +1,1 @@
-export { default } from "./ui/model/model";
+export { default } from "./ui/model/Model";
