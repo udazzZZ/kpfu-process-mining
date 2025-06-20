@@ -77,7 +77,7 @@ const routerElements = {
 
     [ROUTES.PROCESSMAP_PATH]: (
         <Suspense>
-            <Projects />
+            <ProcessMap />
         </Suspense>
     ),
 };
