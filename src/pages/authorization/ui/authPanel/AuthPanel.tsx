@@ -1,4 +1,4 @@
-import type { FC, PropsWithChildren } from 'react';
+import { type FC, type PropsWithChildren } from 'react';
 
 import styles from './AuthPanel.module.css';
 import logoImg from '../../../../../public/logo.svg';

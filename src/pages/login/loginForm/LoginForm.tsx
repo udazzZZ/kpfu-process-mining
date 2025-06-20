@@ -1,4 +1,4 @@
-import { useState, type ChangeEventHandler, type FC } from 'react';
+import { type FC } from 'react';
 // import { useForm } from 'react-hook-form';
 import { TextField } from 'shared/ui/fields';
 
@@ -6,68 +6,89 @@ import styles from './LoginForm.module.css';
 import { BasicButton } from 'shared/ui/buttons';
 import { Link, useNavigate } from 'react-router';
 import { ROUTES } from 'shared/constants';
-import { userEndpoints } from 'shared/api';
+import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
+import { useAppDispatch } from 'shared/hooks/useAppDispatch';
+import { userModel } from 'entities/user';
+
+type LoginFormType = {
+    username: string;
+    password: string;
+};
 
 export const LoginForm: FC = () => {
-    const [password, setPassword] = useState('');
-    const [username, setUsername] = useState('');
+    const dispatch = useAppDispatch();
+
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<LoginFormType>({
+        mode: 'onChange',
+    });
 
     const navigate = useNavigate();
 
-    const onClick: React.MouseEventHandler<HTMLButtonElement> = async (
-        event
-    ) => {
-        event.preventDefault();
-
+    const onSubmit: SubmitHandler<LoginFormType> = async ({
+        username,
+        password,
+    }) => {
         try {
-            await userEndpoints.login({
-                body: {
-                    username,
-                    password,
-                },
-            });
+            await dispatch(
+                userModel.thunks.loginUserAsync({ username, password })
+            ).unwrap();
 
             navigate(ROUTES.PROJECTS_PATH);
-        } catch (e) {
-            console.log((e as Error).message);
+        } catch (error) {
+            if (error instanceof Error) {
+                console.error('Ошибка входа:', error.message);
+            } else {
+                console.error('Неизвестная ошибка:', error);
+            }
         }
-    };
-
-    const onChangePassword: ChangeEventHandler<HTMLInputElement> = (event) => {
-        setPassword(event.target.value);
-    };
-
-    const onChangeUsername: ChangeEventHandler<HTMLInputElement> = (event) => {
-        setUsername(event.target.value);
     };
 
     return (
         <>
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
                 <div className={styles.formInputs}>
-                    <TextField
-                        label="Ваше имя"
-                        placeholder="Введите ваше имя"
-                        onChange={onChangeUsername}
-                        value={username}
+                    <Controller
+                        name="username"
+                        control={control}
+                        defaultValue=""
+                        rules={{ required: true }}
+                        render={({ field }) => (
+                            <TextField
+                                {...field}
+                                isError={!!errors.username}
+                                label="Ваше имя"
+                            />
+                        )}
                     />
-                    <TextField
-                        label="Пароль"
-                        placeholder="Введите ваш пароль"
-                        onChange={onChangePassword}
-                        value={password}
+                    <Controller
+                        name="password"
+                        control={control}
+                        defaultValue=""
+                        rules={{ required: true }}
+                        render={({ field }) => (
+                            <TextField
+                                {...field}
+                                isError={!!errors.password}
+                                label="Пароль"
+                            />
+                        )}
                     />
                 </div>
-                <BasicButton onClick={onClick} size="l">
+                <BasicButton type="submit" size="l">
                     Войти
                 </BasicButton>
             </form>
+
             <div className={styles.links}>
-                <Link to={`${ROUTES.AUTH_PATH}/${ROUTES.REGISTER_PATH}`}>
+                <Link to={`/${ROUTES.AUTH_PATH}/${ROUTES.REGISTER_PATH}`}>
                     Нужна помощь?
                 </Link>
                 <Link
-                    to={`${ROUTES.AUTH_PATH}/${ROUTES.REGISTER_PATH}`}
+                    to={`/${ROUTES.AUTH_PATH}/${ROUTES.REGISTER_PATH}`}
                     className={styles.linkBlue}
                 >
                     Регистрация

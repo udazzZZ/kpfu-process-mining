@@ -1,24 +1,24 @@
-import { useState, useEffect, useRef } from "react";
-import type { FC } from "react";
-import { fileSettingsData } from "pages/file-settings/FileSettings";
-import styles from "./Marks.module.css";
+import { useState, useEffect, useRef } from 'react';
+import type { FC } from 'react';
+import { fileSettingsData } from 'pages/journalImport/fileSettings/FileSettings';
+import styles from './Marks.module.css';
 
 // Импортируем ColumnType из FileSettings
 enum ColumnType {
-    NUMBER = "NUMBER",
-    STRING = "STRING",
-    DATETIME = "DATETIME",
+    NUMBER = 'NUMBER',
+    STRING = 'STRING',
+    DATETIME = 'DATETIME',
 }
 
 // Типы указателей процесса
 enum IndicatorType {
-    CASE_ID = "Идентификатор экземпляра процесса",
-    EVENT_ID = "Идентификатор события",
-    NAME = "Имя события",
-    TIMESTAMP = "Дата и время окончания",
-    SORT_CRITERIA = "Критерий сортировки",
-    CASE_ATTRIBUTE = "Атрибут экземпляра процесса",
-    EVENT_ATTRIBUTE = "Атрибут события",
+    CASE_ID = 'Идентификатор экземпляра процесса',
+    EVENT_ID = 'Идентификатор события',
+    NAME = 'Имя события',
+    TIMESTAMP = 'Дата и время окончания',
+    SORT_CRITERIA = 'Критерий сортировки',
+    CASE_ATTRIBUTE = 'Атрибут экземпляра процесса',
+    EVENT_ATTRIBUTE = 'Атрибут события',
 }
 
 // Типы для данных
@@ -36,58 +36,58 @@ const mockFilePreviewData: FilePreviewData = {
     data: [
         [
             1,
-            "Главная страница",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
+            'Главная страница',
+            '2021-01-09 05:01:19',
+            'Нет',
+            'Дополнительно 1',
+            'Дополнительно 2',
+            'Дополнительно 3',
         ],
         [
             2,
-            "Поиск",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
+            'Поиск',
+            '2021-01-09 05:01:19',
+            'Нет',
+            'Дополнительно 1',
+            'Дополнительно 2',
+            'Дополнительно 3',
         ],
         [
             3,
-            "Страница товара",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
+            'Страница товара',
+            '2021-01-09 05:01:19',
+            'Нет',
+            'Дополнительно 1',
+            'Дополнительно 2',
+            'Дополнительно 3',
         ],
         [
             5,
-            "Корзина",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
+            'Корзина',
+            '2021-01-09 05:01:19',
+            'Нет',
+            'Дополнительно 1',
+            'Дополнительно 2',
+            'Дополнительно 3',
         ],
         [
             6,
-            "Оформление заказа",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
+            'Оформление заказа',
+            '2021-01-09 05:01:19',
+            'Нет',
+            'Дополнительно 1',
+            'Дополнительно 2',
+            'Дополнительно 3',
         ],
     ],
     columns: [
-        "ID",
-        "Страница",
-        "Дата и время",
-        "Вход выполнен",
-        "Дополнительно 1",
-        "Дополнительно 2",
-        "Дополнительно 3",
+        'ID',
+        'Страница',
+        'Дата и время',
+        'Вход выполнен',
+        'Дополнительно 1',
+        'Дополнительно 2',
+        'Дополнительно 3',
     ],
     file_info: {
         id: 123,
@@ -99,7 +99,7 @@ const mockFilePreviewData: FilePreviewData = {
 const getColumnClassByType = (type: ColumnType, columnName: string): string => {
     if (
         type === ColumnType.NUMBER &&
-        (columnName === "ID" || columnName.toLowerCase().includes("id"))
+        (columnName === 'ID' || columnName.toLowerCase().includes('id'))
     ) {
         return styles.smallColumn;
     }
@@ -109,15 +109,15 @@ const getColumnClassByType = (type: ColumnType, columnName: string): string => {
     }
 
     if (
-        columnName.toLowerCase().includes("нет") ||
-        columnName.toLowerCase().includes("да") ||
-        columnName.toLowerCase().includes("статус") ||
-        columnName.toLowerCase().includes("выполнен")
+        columnName.toLowerCase().includes('нет') ||
+        columnName.toLowerCase().includes('да') ||
+        columnName.toLowerCase().includes('статус') ||
+        columnName.toLowerCase().includes('выполнен')
     ) {
         return styles.smallColumn;
     }
 
-    return "";
+    return '';
 };
 
 // Экспортируем данные для доступа извне
@@ -136,12 +136,12 @@ const DraggableIndicator: FC<{
     return (
         <div
             className={`${styles.indicator} ${
-                isAssigned ? styles.indicatorAssigned : ""
+                isAssigned ? styles.indicatorAssigned : ''
             }`}
             onClick={onClick}
             draggable
             onDragStart={(e) => {
-                e.dataTransfer.setData("indicatorType", type);
+                e.dataTransfer.setData('indicatorType', type);
             }}
         >
             <div className={styles.indicatorContent}>
@@ -164,9 +164,9 @@ export const saveMarksSettings = async (
 ): Promise<boolean> => {
     // Здесь будет запрос к API для сохранения настроек указателей
     console.log(
-        "Сохранение настроек указателей:",
+        'Сохранение настроек указателей:',
         columnIndicators,
-        "для файла:",
+        'для файла:',
         fileId
     );
 
@@ -198,7 +198,7 @@ export const Marks: FC = () => {
         } else {
             // Если данных нет (например, пользователь зашел напрямую), используем моковые данные
             console.warn(
-                "Данные с предыдущей страницы не найдены, используем моковые данные"
+                'Данные с предыдущей страницы не найдены, используем моковые данные'
             );
         }
 
@@ -212,7 +212,7 @@ export const Marks: FC = () => {
         const handleScroll = () => {
             if (tableWrapperRef.current) {
                 const scrollTop = tableWrapperRef.current.scrollTop;
-                const headers = tableWrapperRef.current.querySelectorAll("th");
+                const headers = tableWrapperRef.current.querySelectorAll('th');
 
                 if (scrollTop > 0) {
                     headers.forEach((header) => {
@@ -228,12 +228,12 @@ export const Marks: FC = () => {
 
         const tableWrapper = tableWrapperRef.current;
         if (tableWrapper) {
-            tableWrapper.addEventListener("scroll", handleScroll);
+            tableWrapper.addEventListener('scroll', handleScroll);
         }
 
         return () => {
             if (tableWrapper) {
-                tableWrapper.removeEventListener("scroll", handleScroll);
+                tableWrapper.removeEventListener('scroll', handleScroll);
             }
         };
     }, [fileData]);
@@ -265,7 +265,7 @@ export const Marks: FC = () => {
     ) => {
         e.preventDefault();
         const indicatorType = e.dataTransfer.getData(
-            "indicatorType"
+            'indicatorType'
         ) as IndicatorType;
 
         // Проверяем совместимость типа колонки и указателя
@@ -401,8 +401,8 @@ export const Marks: FC = () => {
                         columnTypes[index] || ColumnType.STRING,
                         column
                     )} 
-                    ${currentDragColumn === index ? styles.columnDragOver : ""}
-                    ${columnIndicators[index] ? styles.columnWithIndicator : ""}
+                    ${currentDragColumn === index ? styles.columnDragOver : ''}
+                    ${columnIndicators[index] ? styles.columnWithIndicator : ''}
                   `}
                                     onDragOver={(e) => handleDragOver(e, index)}
                                     onDrop={(e) => handleDrop(e, index)}
