@@ -8,7 +8,7 @@ import { stepToIndex } from "pages/import/lib/steps";
 import {
     fileSettingsData,
     saveFileSettings,
-} from "pages/file-settings/FileSettings";
+} from "pages/fileSettings/FileSettings";
 import { useState } from "react";
 
 const Import: FC = () => {
