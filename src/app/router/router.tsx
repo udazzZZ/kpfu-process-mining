@@ -12,6 +12,7 @@ const SettingsPage = lazy(async () => await import("pages/fileSettings"));
 const MarksPage = lazy(async () => await import("pages/marks"));
 const FinalPage = lazy(async () => await import("pages/final"));
 const Projects = lazy(async () => await import("pages/projects"));
+const Model = lazy(async () => await import("pages/model"));
 
 const routerElements = {
     [ROUTES.AUTH_PATH]: (
@@ -73,6 +74,12 @@ const routerElements = {
             <Projects />
         </Suspense>
     ),
+
+    [ROUTES.MODEL_PATH]: (
+        <Suspense>
+            <Model />
+        </Suspense>
+    ),
 };
 
 export const router = createBrowserRouter([
@@ -101,30 +108,40 @@ export const router = createBrowserRouter([
             },
         ],
     },
-    {
-        path: ROUTES.IMPORT_PATH,
-        element: routerElements[ROUTES.IMPORT_PATH],
-        children: [
-            {
-                path: ROUTES.JOURNAL_PATH,
-                element: routerElements[ROUTES.JOURNAL_PATH],
-            },
-            {
-                path: ROUTES.FILE_SETTINGS_PATH,
-                element: routerElements[ROUTES.FILE_SETTINGS_PATH],
-            },
-            {
-                path: ROUTES.MARKS_PATH,
-                element: routerElements[ROUTES.MARKS_PATH],
-            },
-            {
-                path: ROUTES.FINAL_PATH,
-                element: routerElements[ROUTES.FINAL_PATH],
-            },
-        ],
-    },
+
     {
         path: ROUTES.MODELS_PATH,
         element: routerElements[ROUTES.MODELS_PATH],
+        // children: [
+        //     {
+        //         path: ROUTES.MODEL_PATH,
+        //         element: routerElements[ROUTES.MODEL_PATH],
+        //         children: [
+        //             {
+        //                 path: ROUTES.IMPORT_PATH,
+        //                 element: routerElements[ROUTES.IMPORT_PATH],
+        //                 children: [
+        //                     {
+        //                         path: ROUTES.JOURNAL_PATH,
+        //                         element: routerElements[ROUTES.JOURNAL_PATH],
+        //                     },
+        //                     {
+        //                         path: ROUTES.FILE_SETTINGS_PATH,
+        //                         element:
+        //                             routerElements[ROUTES.FILE_SETTINGS_PATH],
+        //                     },
+        //                     {
+        //                         path: ROUTES.MARKS_PATH,
+        //                         element: routerElements[ROUTES.MARKS_PATH],
+        //                     },
+        //                     {
+        //                         path: ROUTES.FINAL_PATH,
+        //                         element: routerElements[ROUTES.FINAL_PATH],
+        //                     },
+        //                 ],
+        //             },
+        //         ],
+        //     },
+        // ],
     },
 ]);
