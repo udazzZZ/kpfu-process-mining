@@ -5,6 +5,7 @@ import { getProjectsAsync } from './asyncThunks/getProjectsAsync';
 import { createProjectAsync } from './asyncThunks/createProjectAsync';
 import { setCurrentProjectId } from './actions';
 import { fetchReportsAsync } from './asyncThunks/fetchReportsAsync';
+import { createReportAsync } from './asyncThunks/createReportAsync';
 
 type State = {
     projects: projectsEndpoints.Project[];
@@ -51,6 +52,10 @@ export const projectsSlice = createSlice({
 
         addCase(fetchReportsAsync.fulfilled, (state, { payload }) => {
             state.reports = payload;
+        });
+
+        addCase(createReportAsync.fulfilled, (state, { payload }) => {
+            state.reports.push(payload);
         });
     },
 });

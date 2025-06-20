@@ -6,6 +6,7 @@ import {
     setAccessToken,
     setRefreshToken,
 } from '../instance.tokens';
+import { removeUserInfo } from 'shared/utils';
 
 const BAD_UNAUTHORIZED_STATUS = 401;
 
@@ -39,6 +40,8 @@ export const refreshTokenInterceptor = (instance: AxiosInstance) => {
 
             removeAccessToken();
             removeRefreshToken();
+
+            removeUserInfo();
         }
     };
     instance.interceptors.response.use(

@@ -4,6 +4,7 @@ import {
 } from 'shared/api/instance/instance.tokens';
 import { apiPost } from '../../../methods';
 import { createJwt } from '../../jwt/endpoints/createJwt';
+import { setUserInfo } from 'shared/utils/userUtils';
 
 export type RegisterBody = {
     email?: string;
@@ -29,6 +30,8 @@ export const register = async (body: RegisterBody) => {
 
     setAccessToken(access);
     setRefreshToken(refresh);
+
+    setUserInfo(data);
 
     return data;
 };
