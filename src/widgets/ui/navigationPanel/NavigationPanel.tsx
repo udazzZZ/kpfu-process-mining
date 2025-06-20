@@ -5,12 +5,15 @@ import projectIcon from "../../../../public/projects-icon.svg";
 import dataModelIcon from "../../../../public/models-icon.svg";
 import helpIcon from "../../../../public/help-icon.svg";
 import profileIcon from "../../../../public/profile-icon.svg";
+import { getUserInfo } from "shared/utils";
 
 interface NavigationPanelProps {
     isVisible: boolean;
 }
 
 export const NavigationPanel: FC<NavigationPanelProps> = ({ isVisible }) => {
+    const user = getUserInfo();
+
     return (
         <div
             className={`${styles.panel} ${
@@ -54,7 +57,7 @@ export const NavigationPanel: FC<NavigationPanelProps> = ({ isVisible }) => {
                 </NavLink>
                 <div className={styles.user}>
                     <img src={profileIcon} alt="Profile" />
-                    Иванов Иван
+                    {user?.username}
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router";
+import { Outlet, useLocation, useNavigate, useParams } from "react-router";
 import styles from "./Import.module.css";
 import SidePanel from "../sidePanel/SidePanel";
 import { ButtonWithArrow } from "shared/ui/buttons/BackForwardButton/ButtonWithArrow";
@@ -14,6 +14,7 @@ import {
 
 const Import: FC = () => {
     const navigate = useNavigate();
+    const params = useParams();
     const location = useLocation();
     const [isSaving, setIsSaving] = useState(false);
     const pathSegments = location.pathname.split("/");
@@ -30,7 +31,7 @@ const Import: FC = () => {
         const previousStep = Object.keys(stepToIndex).find(
             (step) => stepToIndex[step] === currentStepIndex - 1
         );
-        navigate(`/import/${previousStep}`);
+        navigate(`/models/${params.model}/import/${previousStep}`);
     };
 
     const handleForward = async () => {
@@ -50,7 +51,7 @@ const Import: FC = () => {
                 const nextStep = Object.keys(stepToIndex).find(
                     (step) => stepToIndex[step] === currentStepIndex + 1
                 );
-                navigate(`/import/${nextStep}`);
+                navigate(`/models/${params.model}/import/${nextStep}`);
             } catch (error) {
                 console.error("Ошибка при сохранении настроек файла:", error);
                 // Здесь можно добавить отображение ошибки для пользователя
@@ -62,7 +63,7 @@ const Import: FC = () => {
             const nextStep = Object.keys(stepToIndex).find(
                 (step) => stepToIndex[step] === currentStepIndex + 1
             );
-            navigate(`/import/${nextStep}`);
+            navigate(`/models/${params.model}/import/${nextStep}`);
         }
     };
 

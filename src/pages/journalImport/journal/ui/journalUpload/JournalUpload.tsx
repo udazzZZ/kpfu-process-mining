@@ -1,8 +1,8 @@
-import type { FC } from 'react';
-import { useState, useRef } from 'react';
-import styles from './JournalUpload.module.css';
-import journalUpload from 'public/upload-icon.svg';
-import { useNavigate } from 'react-router';
+import type { FC } from "react";
+import { useState, useRef } from "react";
+import styles from "./JournalUpload.module.css";
+import journalUpload from "public/upload-icon.svg";
+import { useNavigate, useParams } from "react-router";
 
 const JournalUpload: FC = () => {
     const [fileName, setFileName] = useState<string | null>(null);
@@ -11,6 +11,7 @@ const JournalUpload: FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
+    const params = useParams();
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
@@ -73,10 +74,10 @@ const JournalUpload: FC = () => {
             // Если загрузка успешна, перенаправляем на следующий шаг
             setTimeout(() => {
                 setIsLoading(false);
-                navigate('/import/file-settings');
+                navigate(`/models/${params.model}/import/file-settings`);
             }, 1000);
         } catch (error) {
-            console.error('Ошибка при загрузке файла:', error);
+            console.error("Ошибка при загрузке файла:", error);
             setIsLoading(false);
         }
     };
@@ -86,7 +87,7 @@ const JournalUpload: FC = () => {
             <h1 className={styles.title}>Загрузите журнал событий</h1>
             <div
                 className={`${styles.uploadContainer} ${
-                    isDragging ? styles.dragging : ''
+                    isDragging ? styles.dragging : ""
                 }`}
                 onDragEnter={handleDragEnter}
                 onDragLeave={handleDragLeave}
@@ -100,12 +101,12 @@ const JournalUpload: FC = () => {
                         <button
                             type="button"
                             className={`${styles.customFileButton} ${
-                                isLoading ? styles.loading : ''
+                                isLoading ? styles.loading : ""
                             }`}
                             onClick={handleUpload}
                             disabled={isLoading}
                         >
-                            {isLoading ? 'Загрузка...' : 'Загрузить'}
+                            {isLoading ? "Загрузка..." : "Загрузить"}
                         </button>
                     </>
                 ) : (
