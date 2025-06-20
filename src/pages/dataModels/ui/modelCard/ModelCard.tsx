@@ -1,17 +1,23 @@
 import React from "react";
 import styles from "./ModelCard.module.css";
-import type { Model } from "shared/api/endpoints/models";
+import type { ModelResponse } from "shared/api/endpoints/models/endpoints/getModels";
+import { useNavigate } from "react-router";
 
 interface ModelCardProps {
-    model: Model;
-    onClick: () => void;
+    model: ModelResponse;
 }
 
-export const ModelCard: React.FC<ModelCardProps> = ({ model, onClick }) => {
+export const ModelCard: React.FC<ModelCardProps> = ({ model }) => {
+    const navigate = useNavigate();
+
+    const onCardClick = (id: string) => {
+        navigate(`/models/${id}`);
+    };
+
     return (
         <div
             className={styles.card}
-            onClick={onClick}
+            onClick={() => onCardClick(model.id)}
             role="button"
             tabIndex={0}
         >

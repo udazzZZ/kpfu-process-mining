@@ -1,0 +1,60 @@
+.container {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-panel);
+    border-radius: 8px;
+    gap: 16px;
+    width: 284px;
+}
+
+.titleContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.subtitle {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-gray);
+}
+
+.infoContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: var(--accent-blue);
+    border-radius: 5px;
+    border: none;
+    padding: 8.5px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.buttonText {
+    color: var(--text-white);
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.button:hover {
+    background-color: rgb(12, 94, 175);
+}
