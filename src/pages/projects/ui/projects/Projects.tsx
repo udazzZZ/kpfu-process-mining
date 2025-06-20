@@ -6,7 +6,7 @@ import { getProjectsAsync } from "../../model/asyncThunks/getProjectsAsync";
 
 import styles from "./Projects.module.css";
 import { CreateProjectForm } from "../createProjectForm/CreateProjectForm";
-import { ProjectItem } from "../projectItem";
+import { ProjectItem } from "../projectItem/ProjectItem";
 import Header from "../header";
 
 const Projects = () => {
@@ -18,9 +18,9 @@ const Projects = () => {
     }, [dispatch]);
 
     return (
-        <>
+        <div className={styles.wrapper}>
             <Header />
-            <div className={styles.container}>
+            <div className={styles.contentContainer}>
                 <CreateProjectForm />
                 <div className={styles.container}>
                     {projects &&
@@ -29,7 +29,7 @@ const Projects = () => {
                         ))}
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 
