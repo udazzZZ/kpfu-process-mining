@@ -1,5 +1,5 @@
-import React from "react";
-import styles from "./CreateModelButton.module.css";
+import React from 'react';
+import styles from './CreateModelButton.module.css';
 
 interface CreateModelButtonProps {
     onClick: () => void;

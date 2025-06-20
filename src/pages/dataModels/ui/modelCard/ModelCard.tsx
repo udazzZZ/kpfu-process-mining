@@ -1,10 +1,10 @@
-import React from "react";
-import styles from "./ModelCard.module.css";
-import type { ModelResponse } from "shared/api/endpoints/models/endpoints/getModels";
-import { useNavigate } from "react-router";
+import React from 'react';
+import styles from './ModelCard.module.css';
+import type { Model } from 'shared/api/endpoints/models';
+import { useNavigate } from 'react-router';
 
 interface ModelCardProps {
-    model: ModelResponse;
+    model: Model;
 }
 
 export const ModelCard: React.FC<ModelCardProps> = ({ model }) => {

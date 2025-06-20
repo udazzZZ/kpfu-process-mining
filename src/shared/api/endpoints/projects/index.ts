@@ -10,3 +10,9 @@ export {
     fetchReports,
     type FetchReportsPayload,
 } from '../projects/endpoints/fetchReports';
+
+export {
+    createReport,
+    type CreateReportBody,
+    type CreateReportResponse,
+} from './endpoints/createReport';

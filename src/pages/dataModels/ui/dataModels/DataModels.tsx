@@ -11,13 +11,10 @@ const DataModels: React.FC = () => {
     const [search, setSearch] = useState('');
     const [sortKey, setSortKey] = useState<'name' | 'date'>('date');
 
-
     return (
         <div className={styles.container}>
             <Header />
-            <Models
-                isLoading={isLoading}
-            />
+            <Models isLoading={isLoading} />
         </div>
     );
 };

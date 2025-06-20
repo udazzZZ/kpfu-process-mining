@@ -1,11 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { SLICE_NAME } from "../lib/config";
-import { getModelsAsync } from "./asyncThunks/getModelsAsync";
-import { createModelAsync } from "./asyncThunks/createModelAsync";
-import type { ModelResponse } from "shared/api/endpoints/models/endpoints/getModels";
+import { createSlice } from '@reduxjs/toolkit';
+import type { modelsEndpoints } from 'shared/api';
+import { SLICE_NAME } from '../lib/config';
+import { getModelsAsync } from './asyncThunks/getModelsAsync';
+import { createModelAsync } from './asyncThunks/createModelAsync';
 
 type State = {
-    models: ModelResponse[];
+    models: modelsEndpoints.Model[];
 };
 
 const initialState: State = {
@@ -18,12 +18,11 @@ export const modelsSlice = createSlice({
     reducers: {},
     extraReducers: ({ addCase }) => {
         addCase(getModelsAsync.fulfilled, (state, { payload }) => {
-            console.log(payload);
             state.models = payload;
         });
 
         addCase(createModelAsync.fulfilled, (state, { payload }) => {
-            console.log(payload);
+            state.models = [...state.models, payload];
         });
     },
 });

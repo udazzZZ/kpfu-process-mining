@@ -10,9 +10,11 @@ import { useEffect } from 'react';
 import { fetchReportsAsync } from 'pages/projects/model/asyncThunks/fetchReportsAsync';
 import { Card } from 'shared/ui/basics';
 import { CreateCardButton } from 'shared/ui/buttons/CreateCardButton/CreateCardButton';
+import { CreateReportButton } from './CreateReportButton';
 
 export const Reports = () => {
     const dispatch = useAppDispatch();
+
     const currentProjectId = useAppSelector(selectCurrentProjectId);
     const reports = useAppSelector(selectDataReports);
 
@@ -26,15 +28,11 @@ export const Reports = () => {
         console.log('report selected');
     };
 
-    const onCreateHandler = () => {
-        console.log('report created');
-    };
-
     return (
         <div className={styles.container}>
             <ReportsHeader />
             <div className={styles.reportsGrid}>
-                <CreateCardButton onClick={onCreateHandler} />
+                <CreateReportButton />
                 {reports.map((report) => (
                     <Card
                         onClick={onSelectReportHandler}
