@@ -1,10 +1,6 @@
 import React from "react";
 import styles from "./ModelCard.module.css";
-
-type Model = {
-    name: string;
-    id: string;
-};
+import type { Model } from "shared/api/endpoints/models";
 
 interface ModelCardProps {
     model: Model;
