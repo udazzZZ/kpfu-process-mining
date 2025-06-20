@@ -12,6 +12,7 @@ const SettingsPage = lazy(async () => await import("pages/file-settings"));
 const MarksPage = lazy(async () => await import("pages/marks"));
 const FinalPage = lazy(async () => await import("pages/final"));
 const Projects = lazy(async () => await import("pages/projects"));
+const ProcessMap = lazy(async () => await import("pages/processMap"));
 
 const routerElements = {
     [ROUTES.AUTH_PATH]: (
@@ -73,6 +74,12 @@ const routerElements = {
             <Projects />
         </Suspense>
     ),
+
+    [ROUTES.PROCESSMAP_PATH]: (
+        <Suspense>
+            <Projects />
+        </Suspense>
+    ),
 };
 
 export const router = createBrowserRouter([
@@ -126,5 +133,9 @@ export const router = createBrowserRouter([
     {
         path: ROUTES.MODELS_PATH,
         element: routerElements[ROUTES.MODELS_PATH],
+    },
+    {
+        path: ROUTES.PROCESSMAP_PATH,
+        element: routerElements[ROUTES.PROCESSMAP_PATH],
     },
 ]);
