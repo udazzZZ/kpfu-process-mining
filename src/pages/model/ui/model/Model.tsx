@@ -3,7 +3,7 @@ import Header from "shared/ui/header/Header";
 import styles from "./Model.module.css";
 import { ModelInfo } from "../modelInfo/ModelInfo";
 import helpIcon from "public/help-icon.svg";
-import { FastStartButton } from "../fastStartButton/fastStartButton";
+import { FastStartButton } from "../fastStartButton/FastStartButton";
 
 const Model: FC = () => {
     return (
