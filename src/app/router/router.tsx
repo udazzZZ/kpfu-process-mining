@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { createBrowserRouter, Outlet, redirect } from 'react-router';
+import { createBrowserRouter, redirect } from 'react-router';
 import { ROUTES } from 'shared/constants';
 
 const AuthPage = lazy(async () => await import('pages/authorization'));
@@ -11,7 +11,7 @@ const JournalPage = lazy(
     async () => await import('pages/journalImport/journal')
 );
 const SettingsPage = lazy(
-    async () => await import('pages/journalImport/file-settings')
+    async () => await import('pages/journalImport/fileSettings')
 );
 const MarksPage = lazy(async () => await import('pages/journalImport/marks'));
 const FinalPage = lazy(async () => await import('pages/journalImport/final'));

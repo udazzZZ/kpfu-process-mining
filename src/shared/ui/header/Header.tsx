@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import type { FC } from 'react';
-import menuButtonImg from '../../../../../public/menu-button.svg';
+import menuButtonImg from '../../../../public/menu-button.svg';
 import styles from './Header.module.css';
-import { NavigationPanel } from '../../../../../widgets/ui/NavigationPanel/NavigationPanel';
-import overlayStyles from '../../../../widgets/ui/NavigationPanel/Overlay.module.css';
+import overlayStyles from 'widgets/ui/NavigationPanel/Overlay.module.css';
+import { NavigationPanel } from 'widgets/ui/NavigationPanel/NavigationPanel';
 
 const Header: FC = () => {
     const [isNavigationVisible, setIsNavigationVisible] = useState(false);

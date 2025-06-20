@@ -5,6 +5,7 @@
 
     padding: 36px;
     background-color: var(--bg-panel);
+    border-radius: 11px;
 }
 
 .formInputs {

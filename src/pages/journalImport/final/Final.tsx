@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import type { FC } from 'react';
 import styles from './Final.module.css';
-import { fileSettingsData } from 'pages/journalImport/file-settings/FileSettings';
-import { marksData } from 'pages/marks/Marks';
+import { fileSettingsData } from 'pages/journalImport/fileSettings/FileSettings';
+import { marksData } from 'pages/journalImport/marks/Marks';
 import { useNavigate } from 'react-router';
 
 // Типы для отслеживания прогресса
@@ -109,7 +109,7 @@ export const Final: FC = () => {
 
         // Функция для имитации получения обновлений прогресса с сервера
         const simulateServerUpdates = () => {
-            let currentProgress = { ...initialProgress };
+            const currentProgress = { ...initialProgress };
             let queueTimer: NodeJS.Timeout;
             let processingTimer: NodeJS.Timeout;
             let statisticsTimer: NodeJS.Timeout;

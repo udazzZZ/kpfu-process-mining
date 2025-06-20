@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import type { FC } from 'react';
-import { fileSettingsData } from 'pages/journalImport/file-settings/FileSettings';
+import { fileSettingsData } from 'pages/journalImport/fileSettings/FileSettings';
 import styles from './Marks.module.css';
 
 // Импортируем ColumnType из FileSettings

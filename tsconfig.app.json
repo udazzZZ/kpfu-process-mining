@@ -29,7 +29,8 @@
             "features/*": ["src/features/*"],
             "pages/*": ["src/pages/*"],
             "widgets/*": ["src/widgets/*"],
-            "shared/*": ["src/shared/*"]
+            "shared/*": ["src/shared/*"],
+            "public/*": ["public/*"]
         }
     },
     "include": ["src"]

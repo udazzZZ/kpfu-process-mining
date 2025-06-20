@@ -1,18 +1,21 @@
-import { useState, type ChangeEventHandler, type FC } from 'react';
-import { projectsEndpoints } from 'shared/api';
-import { BasicButton } from 'shared/ui/buttons';
-import { TextField } from 'shared/ui/fields';
+import { useState, type ChangeEventHandler, type FC } from "react";
+import { projectsEndpoints } from "shared/api";
+import { BasicButton } from "shared/ui/buttons";
+import { TextField } from "shared/ui/fields";
 
-import styles from './CreateProjectForm.module.css';
+import styles from "./CreateProjectForm.module.css";
 
 export const CreateProjectForm: FC = () => {
-    const [projectName, setProjectName] = useState('');
-    const [description, setDescription] = useState('');
+    const [projectName, setProjectName] = useState("");
+    const [description, setDescription] = useState("");
 
     const onClick: React.MouseEventHandler<HTMLButtonElement> = async (
         event
     ) => {
         event.preventDefault();
+
+        setProjectName("");
+        setDescription("");
 
         await projectsEndpoints.createProject({
             name: projectName,

@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import styles from './Tab.module.css';
 import { useLocation } from 'react-router';
 import clsx from 'clsx';
-import daw from '../../../../../public/daw.svg';
+import daw from 'public/daw.svg';
 import { stepToIndex } from 'pages/journalImport/import/lib/steps';
 
 type TabProps = {
