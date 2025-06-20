@@ -8,6 +8,7 @@ import { dataModelsModel } from 'entities/dataModels';
 import { selectCurrentProjectId } from '../../../../model/selectors';
 
 import styles from './CreateReportForm.module.css';
+import { createReportAsync } from 'pages/projects/model/asyncThunks/createReportAsync';
 
 type CreateReportFormProps = {
     onCreate?: () => void;
@@ -16,6 +17,7 @@ type CreateReportFormProps = {
 type ReportFormType = {
     name: string;
     description: string;
+    modelId: number;
 };
 
 export const CreateReportForm: FC<CreateReportFormProps> = ({ onCreate }) => {
@@ -24,10 +26,15 @@ export const CreateReportForm: FC<CreateReportFormProps> = ({ onCreate }) => {
 
     const dispatch = useAppDispatch();
 
+    const modelsItems = models.map((model) => {
+        return { key: model.id, value: model.name };
+    });
+
     const {
         control,
         handleSubmit,
         formState: { errors },
+        register,
     } = useForm<ReportFormType>({
         mode: 'onChange',
     });
@@ -36,18 +43,21 @@ export const CreateReportForm: FC<CreateReportFormProps> = ({ onCreate }) => {
         name,
         description,
     }) => {
-        // try {
-        //     await dispatch(
-        //         userModel.thunks.loginUserAsync({ username, password })
-        //     ).unwrap();
-        //     navigate(ROUTES.PROJECTS_PATH);
-        // } catch (error) {
-        //     if (error instanceof Error) {
-        //         console.error('Ошибка входа:', error.message);
-        //     } else {
-        //         console.error('Неизвестная ошибка:', error);
-        //     }
-        // }
+        try {
+            await dispatch(
+                createReportAsync({
+                    name,
+                    description,
+                    project: currentProjectId,
+                })
+            ).unwrap();
+        } catch (error) {
+            if (error instanceof Error) {
+                console.error('Ошибка входа:', error.message);
+            } else {
+                console.error('Неизвестная ошибка:', error);
+            }
+        }
 
         onCreate?.();
     };
@@ -81,6 +91,15 @@ export const CreateReportForm: FC<CreateReportFormProps> = ({ onCreate }) => {
                     />
                 )}
             />
+
+            <select {...register('modelId')}>
+                <option value="">Выберите...</option>
+                {models.map((model) => (
+                    <option key={model.id} value={model.name}>
+                        {model.name}
+                    </option>
+                ))}
+            </select>
 
             <BasicButton type="submit" size="l">
                 Создать
