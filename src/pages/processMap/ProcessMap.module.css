@@ -1,0 +1,40 @@
+.container {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background-color: #f7f8fa;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.tabs {
+    display: flex;
+    gap: 16px;
+}
+
+.tab,
+.tabActive {
+    border: none;
+    padding: 10px 16px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.tabActive {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.graphArea {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    background-color: white;
+    border-radius: 12px;
+    padding: 16px;
+}
