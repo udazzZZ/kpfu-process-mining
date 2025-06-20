@@ -1,10 +1,10 @@
 import type { FC } from "react";
 import styles from "./NavigationPanel.module.css";
 import { NavLink } from "react-router";
-import projectIcon from "../../../../public/projects-icon.svg";
-import dataModelIcon from "../../../../public/models-icon.svg";
-import helpIcon from "../../../../public/help-icon.svg";
-import profileIcon from "../../../../public/profile-icon.svg";
+import projectIcon from "../../../../../public/projects-icon.svg";
+import dataModelIcon from "../../../../../public/models-icon.svg";
+import helpIcon from "../../../../../public/help-icon.svg";
+import profileIcon from "../../../../../public/profile-icon.svg";
 
 interface NavigationPanelProps {
     isVisible: boolean;

@@ -8,7 +8,7 @@ const Register = lazy(async () => await import("pages/register"));
 const Models = lazy(async () => await import("pages/dataModels"));
 const ImportPage = lazy(async () => await import("pages/import"));
 const JournalPage = lazy(async () => await import("pages/journal"));
-const SettingsPage = lazy(async () => await import("pages/file-settings"));
+const SettingsPage = lazy(async () => await import("pages/fileSettings"));
 const MarksPage = lazy(async () => await import("pages/marks"));
 const FinalPage = lazy(async () => await import("pages/final"));
 const Projects = lazy(async () => await import("pages/projects"));
