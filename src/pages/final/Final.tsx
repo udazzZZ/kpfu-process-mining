@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import type { FC } from "react";
 import styles from "./Final.module.css";
-import { fileSettingsData } from "pages/file-settings/FileSettings";
+import { fileSettingsData } from "pages/fileSettings/FileSettings";
 import { marksData } from "pages/marks/Marks";
 import { useNavigate } from "react-router";
 
