@@ -7,7 +7,9 @@
     border-radius: 12px;
     cursor: pointer;
     transition: box-shadow 0.2s;
-    gap: 4px;
+    gap: 16px;
+    min-height: 165px;
+    max-height: 165px;
 }
 .card:hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -22,12 +24,22 @@
 
 .dateText {
     font-size: 11px;
-    color: var(--text-gray);
 }
 
 .name {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 400;
     color: var(--text);
     word-break: break-word;
+}
+
+.cardHeader {
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.description {
+    font-size: 14px;
+    color: var(--text-gray);
 }

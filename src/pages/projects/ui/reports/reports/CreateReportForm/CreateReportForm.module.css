@@ -4,3 +4,7 @@
     flex-direction: column;
     gap: 16px;
 }
+
+.select {
+    padding: 8px 4px;
+}

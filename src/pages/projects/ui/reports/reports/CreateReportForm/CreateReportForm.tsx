@@ -26,10 +26,6 @@ export const CreateReportForm: FC<CreateReportFormProps> = ({ onCreate }) => {
 
     const dispatch = useAppDispatch();
 
-    const modelsItems = models.map((model) => {
-        return { key: model.id, value: model.name };
-    });
-
     const {
         control,
         handleSubmit,
@@ -42,6 +38,7 @@ export const CreateReportForm: FC<CreateReportFormProps> = ({ onCreate }) => {
     const onSubmit: SubmitHandler<ReportFormType> = async ({
         name,
         description,
+        modelId,
     }) => {
         try {
             await dispatch(
@@ -49,6 +46,7 @@ export const CreateReportForm: FC<CreateReportFormProps> = ({ onCreate }) => {
                     name,
                     description,
                     project: currentProjectId,
+                    model_data: modelId,
                 })
             ).unwrap();
         } catch (error) {
@@ -92,10 +90,10 @@ export const CreateReportForm: FC<CreateReportFormProps> = ({ onCreate }) => {
                 )}
             />
 
-            <select {...register('modelId')}>
-                <option value="">Выберите...</option>
+            <select className={styles.select} {...register('modelId')}>
+                <option value="">Выберите модель...</option>
                 {models.map((model) => (
-                    <option key={model.id} value={model.name}>
+                    <option key={model.id} value={model.id}>
                         {model.name}
                     </option>
                 ))}
