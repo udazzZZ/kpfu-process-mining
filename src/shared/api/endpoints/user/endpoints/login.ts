@@ -14,11 +14,7 @@ export type LoginResponse = {
     id: number;
 } & LoginBody;
 
-export type LoginPayload = {
-    body: LoginBody;
-};
-
-export const login = async ({ body }: LoginPayload) => {
+export const login = async (body: LoginBody) => {
     const {
         data: { access, refresh },
     } = await createJwt(body);

@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
-import type { FC } from "react";
-import styles from "./Final.module.css";
-import { fileSettingsData } from "pages/fileSettings/FileSettings";
-import { marksData } from "pages/marks/Marks";
-import { useNavigate } from "react-router";
+import { useState, useEffect } from 'react';
+import type { FC } from 'react';
+import styles from './Final.module.css';
+import { fileSettingsData } from 'pages/journalImport/fileSettings/FileSettings';
+import { marksData } from 'pages/journalImport/marks/Marks';
+import { useNavigate } from 'react-router';
 
 // Типы для отслеживания прогресса
 interface ProcessingProgress {
-    queueStatus: "waiting" | "processing" | "completed";
+    queueStatus: 'waiting' | 'processing' | 'completed';
     dataProcessingPercent: number;
     statisticsCalculationPercent: number;
     isComplete: boolean;
@@ -15,7 +15,7 @@ interface ProcessingProgress {
 
 // Начальное состояние прогресса
 const initialProgress: ProcessingProgress = {
-    queueStatus: "waiting",
+    queueStatus: 'waiting',
     dataProcessingPercent: 0,
     statisticsCalculationPercent: 0,
     isComplete: false,
@@ -94,7 +94,7 @@ export const Final: FC = () => {
     const navigate = useNavigate();
 
     const onContinueButtonClickHandler = () => {
-        navigate("/models");
+        navigate('/models');
     };
 
     // Имитация получения данных с сервера
@@ -102,21 +102,21 @@ export const Final: FC = () => {
         // Проверяем, что данные с предыдущих страниц доступны
         if (!fileSettingsData.isDataReady || !marksData.isDataReady) {
             setError(
-                "Данные с предыдущих шагов не найдены. Пожалуйста, вернитесь и заполните необходимую информацию."
+                'Данные с предыдущих шагов не найдены. Пожалуйста, вернитесь и заполните необходимую информацию.'
             );
             return;
         }
 
         // Функция для имитации получения обновлений прогресса с сервера
         const simulateServerUpdates = () => {
-            let currentProgress = { ...initialProgress };
+            const currentProgress = { ...initialProgress };
             let queueTimer: NodeJS.Timeout;
             let processingTimer: NodeJS.Timeout;
             let statisticsTimer: NodeJS.Timeout;
 
             // Шаг 1: Ожидание в очереди
             queueTimer = setTimeout(() => {
-                currentProgress.queueStatus = "processing";
+                currentProgress.queueStatus = 'processing';
                 setProgress({ ...currentProgress });
 
                 // Шаг 2: Обработка данных
@@ -210,7 +210,7 @@ export const Final: FC = () => {
                 <div className={styles.progressItem}>
                     <div className={styles.progressHeader}>
                         <div className={styles.progressIcon}>
-                            {progress.queueStatus !== "waiting" ? (
+                            {progress.queueStatus !== 'waiting' ? (
                                 <div
                                     className={`${styles.checkIcon} ${styles.completed}`}
                                 >
@@ -237,7 +237,7 @@ export const Final: FC = () => {
                                 >
                                     <CheckIcon />
                                 </div>
-                            ) : progress.queueStatus === "processing" ? (
+                            ) : progress.queueStatus === 'processing' ? (
                                 <div className={styles.processingIcon}>
                                     <ProcessingIcon />
                                 </div>
@@ -251,10 +251,10 @@ export const Final: FC = () => {
                             Обработка данных
                         </div>
                     </div>
-                    {progress.queueStatus === "processing" &&
+                    {progress.queueStatus === 'processing' &&
                         renderProgressBar(
                             progress.dataProcessingPercent,
-                            "#007AFF"
+                            '#007AFF'
                         )}
                 </div>
 
@@ -284,7 +284,7 @@ export const Final: FC = () => {
                     {progress.dataProcessingPercent === 100 &&
                         renderProgressBar(
                             progress.statisticsCalculationPercent,
-                            "#007AFF"
+                            '#007AFF'
                         )}
                 </div>
             </div>
