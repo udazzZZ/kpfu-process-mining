@@ -14,9 +14,10 @@ const JournalPage = lazy(
 const SettingsPage = lazy(
     async () => await import("pages/journalImport/fileSettings")
 );
-const MarksPage = lazy(async () => await import("pages/journalImport/marks"));
-const FinalPage = lazy(async () => await import("pages/journalImport/final"));
-const Projects = lazy(async () => await import("pages/projects"));
+const MarksPage = lazy(async () => await import('pages/journalImport/marks'));
+const FinalPage = lazy(async () => await import('pages/journalImport/final'));
+const Projects = lazy(async () => await import('pages/projects'));
+const ProcessMap = lazy(async () => await import("pages/processMap"));
 
 const routerElements = {
     [ROUTES.AUTH_PATH]: (
@@ -76,6 +77,12 @@ const routerElements = {
     [ROUTES.PROJECTS_PATH]: (
         <Suspense>
             <Projects />
+        </Suspense>
+    ),
+
+    [ROUTES.PROCESSMAP_PATH]: (
+        <Suspense>
+            <ProcessMap />
         </Suspense>
     ),
 
@@ -150,5 +157,13 @@ export const createMainRouter = (isAuthenticated: boolean) =>
                     element: routerElements[ROUTES.FINAL_PATH],
                 },
             ],
+        },
+        {
+            path: ROUTES.MODELS_PATH,
+            element: routerElements[ROUTES.MODELS_PATH],
+        },
+        {
+            path: ROUTES.PROCESSMAP_PATH,
+            element: routerElements[ROUTES.PROCESSMAP_PATH],
         },
     ]);
