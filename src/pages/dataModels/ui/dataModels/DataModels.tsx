@@ -4,21 +4,6 @@ import { Models } from '../models/Models';
 import Header from 'shared/ui/header/Header';
 import { useNavigate } from 'react-router';
 
-const models = [
-    {
-        name: 'Модель 1',
-        id: '1',
-    },
-    {
-        name: 'Модель 2',
-        id: '2',
-    },
-    {
-        name: 'Модель 3',
-        id: '3',
-    },
-];
-
 const DataModels: React.FC = () => {
     const isLoading = false;
     const navigate = useNavigate();
@@ -35,7 +20,6 @@ const DataModels: React.FC = () => {
         <div className={styles.container}>
             <Header />
             <Models
-                models={models}
                 isLoading={isLoading}
                 onCardClick={handleCardClick}
             />
