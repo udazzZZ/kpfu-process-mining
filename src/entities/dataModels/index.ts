@@ -1,6 +1,10 @@
 import { createModelAsync } from './model/asyncThunks/createModelAsync';
 import { getModelsAsync } from './model/asyncThunks/getModelsAsync';
-import { selectModels } from './model/selectors';
+import {
+    selectModelById,
+    selectModels,
+    selectModelsById,
+} from './model/selectors';
 
 type DataModelsModel = {
     thunks: {
@@ -10,6 +14,8 @@ type DataModelsModel = {
 
     selectors: {
         selectModels: typeof selectModels;
+        selectModelsById: typeof selectModelsById;
+        selectModelById: typeof selectModelById;
     };
 };
 
@@ -21,5 +27,7 @@ export const dataModelsModel: DataModelsModel = {
 
     selectors: {
         selectModels,
+        selectModelById,
+        selectModelsById,
     },
 };
