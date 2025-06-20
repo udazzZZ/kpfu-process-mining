@@ -12,16 +12,11 @@ const DataModels: React.FC = () => {
     const [sortKey, setSortKey] = useState<'name' | 'date'>('date');
 
 
-    const handleCardClick = (id: string) => {
-        // TODO: навигация на страницу модели
-    };
-
     return (
         <div className={styles.container}>
             <Header />
             <Models
                 isLoading={isLoading}
-                onCardClick={handleCardClick}
             />
         </div>
     );

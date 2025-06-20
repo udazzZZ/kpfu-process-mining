@@ -16,12 +16,10 @@ import { getModelsAsync } from "pages/dataModels/model/asyncThunks/getModelsAsyn
 
 interface ModelsProps {
     isLoading: boolean;
-    onCardClick: (id: string) => void;
 }
 
 export const Models: React.FC<ModelsProps> = ({
     isLoading,
-    onCardClick,
 }) => {
     const [modelName, setModelName] = useState("");
     const [description, setDescription] = useState("");
@@ -101,7 +99,6 @@ export const Models: React.FC<ModelsProps> = ({
                 <ModelCard
                     key={item.id}
                     model={item}
-                    onClick={() => onCardClick(item.id)}
                 />
             ))}
         </div>

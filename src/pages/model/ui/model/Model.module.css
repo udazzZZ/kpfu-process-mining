@@ -1,0 +1,45 @@
+.container {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sidePanel {
+    width: 284px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.infoContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    background-color: var(--bg-panel);
+    border-radius: 8px;
+}
+
+.infoParagraph {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 8px;
+}
+
+.infoText {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text)
+}
+
+.content {
+    display: flex;
+}
+
+.contentMain {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
