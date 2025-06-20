@@ -6,7 +6,8 @@ import { getProjectsAsync } from "../../model/asyncThunks/getProjectsAsync";
 
 import styles from "./Projects.module.css";
 import { CreateProjectForm } from "../createProjectForm/CreateProjectForm";
-import { ProjectItem } from "../projectItem";
+import { ProjectItem } from "../projectItem/ProjectItem";
+import Header from "../header";
 
 const Projects = () => {
     const dispatch = useAppDispatch();
@@ -17,13 +18,16 @@ const Projects = () => {
     }, [dispatch]);
 
     return (
-        <div className={styles.container}>
-            <CreateProjectForm />
-            <div className="">
-                {projects &&
-                    projects.map((project) => (
-                        <ProjectItem {...project} key={project.name} />
-                    ))}
+        <div className={styles.wrapper}>
+            <Header />
+            <div className={styles.contentContainer}>
+                <CreateProjectForm />
+                <div className={styles.container}>
+                    {projects &&
+                        projects.map((project) => (
+                            <ProjectItem {...project} key={project.name} />
+                        ))}
+                </div>
             </div>
         </div>
     );
