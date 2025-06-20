@@ -5,4 +5,4 @@ export {
     type RegisterPayload,
 } from './endpoints/register';
 
-export { login } from './endpoints/login';
+export { login, type LoginResponse, type LoginBody } from './endpoints/login';

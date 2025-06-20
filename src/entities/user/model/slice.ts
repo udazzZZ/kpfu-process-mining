@@ -1,6 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { SLICE_NAME } from "../lib/config";
-import { registerUserAsync } from "./asyncThunks/registerUserAsync";
+import { createSlice } from '@reduxjs/toolkit';
+import { SLICE_NAME } from '../lib/config';
+import { registerUserAsync } from './asyncThunks/registerUserAsync';
+import { loginUserAsync } from './asyncThunks/loginUserAsync';
 
 type State = {
     userId: number;
@@ -10,8 +11,8 @@ type State = {
 
 const initialState: State = {
     userId: -1,
-    username: "",
-    email: "",
+    username: '',
+    email: '',
 };
 
 export const userSlice = createSlice({
@@ -22,6 +23,11 @@ export const userSlice = createSlice({
         addCase(registerUserAsync.fulfilled, (state, { payload }) => {
             state.username = payload.username;
             state.email = payload.email;
+            state.userId = payload.id;
+        });
+
+        addCase(loginUserAsync.fulfilled, (state, { payload }) => {
+            state.username = payload.username;
             state.userId = payload.id;
         });
     },

@@ -39,8 +39,6 @@ export const refreshTokenInterceptor = (instance: AxiosInstance) => {
 
             removeAccessToken();
             removeRefreshToken();
-
-            // window.location.href = '/auth/login';
         }
     };
     instance.interceptors.response.use(

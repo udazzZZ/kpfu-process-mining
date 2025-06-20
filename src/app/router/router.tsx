@@ -1,17 +1,21 @@
-import { lazy, Suspense } from "react";
-import { createBrowserRouter, Outlet } from "react-router";
-import { ROUTES } from "shared/constants";
+import { lazy, Suspense } from 'react';
+import { createBrowserRouter, redirect } from 'react-router';
+import { ROUTES } from 'shared/constants';
 
-const AuthPage = lazy(async () => await import("pages/authorization"));
-const Login = lazy(async () => await import("pages/login"));
-const Register = lazy(async () => await import("pages/register"));
-const Models = lazy(async () => await import("pages/dataModels"));
-const ImportPage = lazy(async () => await import("pages/import"));
-const JournalPage = lazy(async () => await import("pages/journal"));
-const SettingsPage = lazy(async () => await import("pages/fileSettings"));
-const MarksPage = lazy(async () => await import("pages/marks"));
-const FinalPage = lazy(async () => await import("pages/final"));
-const Projects = lazy(async () => await import("pages/projects"));
+const AuthPage = lazy(async () => await import('pages/authorization'));
+const Login = lazy(async () => await import('pages/login'));
+const Register = lazy(async () => await import('pages/register'));
+const Models = lazy(async () => await import('pages/dataModels'));
+const ImportPage = lazy(async () => await import('pages/journalImport/import'));
+const JournalPage = lazy(
+    async () => await import('pages/journalImport/journal')
+);
+const SettingsPage = lazy(
+    async () => await import('pages/journalImport/fileSettings')
+);
+const MarksPage = lazy(async () => await import('pages/journalImport/marks'));
+const FinalPage = lazy(async () => await import('pages/journalImport/final'));
+const Projects = lazy(async () => await import('pages/projects'));
 
 const routerElements = {
     [ROUTES.AUTH_PATH]: (
@@ -75,56 +79,63 @@ const routerElements = {
     ),
 };
 
-export const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Outlet />,
-        children: [
-            {
-                path: ROUTES.AUTH_PATH,
-                element: routerElements[ROUTES.AUTH_PATH],
-                children: [
-                    {
-                        path: ROUTES.LOGIN_PATH,
-                        element: routerElements[ROUTES.LOGIN_PATH],
-                    },
-                    {
-                        path: ROUTES.REGISTER_PATH,
-                        element: routerElements[ROUTES.REGISTER_PATH],
-                    },
-                ],
-            },
+export const createMainRouter = (isAuthenticated: boolean) =>
+    createBrowserRouter([
+        {
+            path: '/',
+            loader: () =>
+                redirect(
+                    isAuthenticated
+                        ? ROUTES.PROJECTS_PATH
+                        : `/${ROUTES.AUTH_PATH}/${ROUTES.LOGIN_PATH}`
+                ),
+        },
 
-            {
-                path: ROUTES.PROJECTS_PATH,
-                element: routerElements[ROUTES.PROJECTS_PATH],
-            },
-        ],
-    },
-    {
-        path: ROUTES.IMPORT_PATH,
-        element: routerElements[ROUTES.IMPORT_PATH],
-        children: [
-            {
-                path: ROUTES.JOURNAL_PATH,
-                element: routerElements[ROUTES.JOURNAL_PATH],
-            },
-            {
-                path: ROUTES.FILE_SETTINGS_PATH,
-                element: routerElements[ROUTES.FILE_SETTINGS_PATH],
-            },
-            {
-                path: ROUTES.MARKS_PATH,
-                element: routerElements[ROUTES.MARKS_PATH],
-            },
-            {
-                path: ROUTES.FINAL_PATH,
-                element: routerElements[ROUTES.FINAL_PATH],
-            },
-        ],
-    },
-    {
-        path: ROUTES.MODELS_PATH,
-        element: routerElements[ROUTES.MODELS_PATH],
-    },
-]);
+        {
+            path: ROUTES.AUTH_PATH,
+            element: routerElements[ROUTES.AUTH_PATH],
+
+            children: [
+                {
+                    path: ROUTES.LOGIN_PATH,
+                    element: routerElements[ROUTES.LOGIN_PATH],
+                },
+                {
+                    path: ROUTES.REGISTER_PATH,
+                    element: routerElements[ROUTES.REGISTER_PATH],
+                },
+            ],
+        },
+
+        {
+            path: ROUTES.PROJECTS_PATH,
+            element: routerElements[ROUTES.PROJECTS_PATH],
+        },
+
+        {
+            path: ROUTES.IMPORT_PATH,
+            element: routerElements[ROUTES.IMPORT_PATH],
+            children: [
+                {
+                    path: ROUTES.JOURNAL_PATH,
+                    element: routerElements[ROUTES.JOURNAL_PATH],
+                },
+                {
+                    path: ROUTES.FILE_SETTINGS_PATH,
+                    element: routerElements[ROUTES.FILE_SETTINGS_PATH],
+                },
+                {
+                    path: ROUTES.MARKS_PATH,
+                    element: routerElements[ROUTES.MARKS_PATH],
+                },
+                {
+                    path: ROUTES.FINAL_PATH,
+                    element: routerElements[ROUTES.FINAL_PATH],
+                },
+            ],
+        },
+        {
+            path: ROUTES.MODELS_PATH,
+            element: routerElements[ROUTES.MODELS_PATH],
+        },
+    ]);
