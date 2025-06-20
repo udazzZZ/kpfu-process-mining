@@ -2,8 +2,8 @@ import { useState } from "react";
 import type { FC } from "react";
 import menuButtonImg from "../../../../public/menu-button.svg";
 import styles from "./Header.module.css";
-import { NavigationPanel } from "../../../widgets/ui/navigationPanel/navigationPanel/NavigationPanel";
-import overlayStyles from "../../../widgets/ui/NavigationPanel/navigationPanel/Overlay.module.css";
+import { NavigationPanel } from "../../../widgets/ui/navigationPanel/NavigationPanel";
+import overlayStyles from "../../../widgets/ui/NavigationPanel/Overlay.module.css";
 
 const Header: FC = () => {
     const [isNavigationVisible, setIsNavigationVisible] = useState(false);
