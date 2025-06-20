@@ -1,0 +1,15 @@
+.container {
+    background-color: var(--bg-panel);
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 10px;
+    flex: 1;
+    height: 100%;
+}
+
+.reportsGrid {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(244px, 1fr));
+}
