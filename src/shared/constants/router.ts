@@ -9,8 +9,8 @@ export const ROUTES = {
     MARKS_PATH: 'marks',
     FINAL_PATH: 'final',
     PROJECTS_PATH: '/projects',
-    PROCESSMAP_PATH: "/processmap",
-    MODEL_PATH: ":model",
+    PROCESSMAP_PATH: '/processmap',
+    MODEL_PATH: ':model',
 } as const;
 
 export type RoutesTypes = keyof typeof ROUTES;

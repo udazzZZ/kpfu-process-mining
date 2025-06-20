@@ -4,8 +4,13 @@ import menuButtonImg from '../../../../public/menu-button.svg';
 import styles from './Header.module.css';
 import overlayStyles from 'widgets/ui/NavigationPanel/Overlay.module.css';
 import { NavigationPanel } from 'widgets/ui/NavigationPanel/NavigationPanel';
+import clsx from 'clsx';
 
-const Header: FC = () => {
+type HeaderProps = {
+    containerClassName?: string;
+};
+
+const Header: FC<HeaderProps> = ({ containerClassName }) => {
     const [isNavigationVisible, setIsNavigationVisible] = useState(false);
 
     const toggleNavigation = () => {
@@ -14,7 +19,7 @@ const Header: FC = () => {
 
     return (
         <>
-            <header className={styles.container}>
+            <header className={clsx(styles.container, containerClassName)}>
                 <div
                     className={styles.buttonContainer}
                     onClick={toggleNavigation}

@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getActionPrefix } from '../../lib/utils';
 import { projectsEndpoints } from 'shared/api';
 
-export const createProjectsAsync = createAsyncThunk<
+export const createProjectAsync = createAsyncThunk<
     projectsEndpoints.CreateProjectResponse,
     projectsEndpoints.CreateProjectBody
 >(getActionPrefix('createProjectAsync'), async (body) => {

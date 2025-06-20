@@ -4,4 +4,9 @@ export {
     type CreateProjectResponse,
     type CreateProjectBody,
 } from './endpoints/createProject';
-export { type Project } from './types';
+export { type Project, type DataReport } from './types';
+
+export {
+    fetchReports,
+    type FetchReportsPayload,
+} from '../projects/endpoints/fetchReports';
