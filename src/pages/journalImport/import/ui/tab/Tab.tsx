@@ -1,9 +1,9 @@
-import type { FC } from "react";
-import styles from "./Tab.module.css";
-import { useLocation } from "react-router";
-import clsx from "clsx";
-import daw from "../../../../../public/daw.svg";
-import { stepToIndex } from "pages/import/lib/steps";
+import type { FC } from 'react';
+import styles from './Tab.module.css';
+import { useLocation } from 'react-router';
+import clsx from 'clsx';
+import daw from '../../../../../public/daw.svg';
+import { stepToIndex } from 'pages/journalImport/import/lib/steps';
 
 type TabProps = {
     title: string;
@@ -15,9 +15,9 @@ type TabProps = {
 
 const Tab: FC<TabProps> = ({ title, subtitle, step, stepIndex }) => {
     const location = useLocation();
-    const pathSegments = location.pathname.split("/");
+    const pathSegments = location.pathname.split('/');
     const currentPage =
-        pathSegments.length > 1 ? pathSegments[pathSegments.length - 1] : "";
+        pathSegments.length > 1 ? pathSegments[pathSegments.length - 1] : '';
 
     const isActive = currentPage === step;
 

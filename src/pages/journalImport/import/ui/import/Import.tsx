@@ -1,28 +1,28 @@
-import type { FC } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router";
-import Header from "../header/Header";
-import styles from "./Import.module.css";
-import SidePanel from "../sidePanel/SidePanel";
-import { ButtonWithArrow } from "shared/ui/buttons/BackForwardButton/ButtonWithArrow";
-import { stepToIndex } from "pages/import/lib/steps";
+import type { FC } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router';
+import Header from '../header/Header';
+import styles from './Import.module.css';
+import SidePanel from '../sidePanel/SidePanel';
+import { ButtonWithArrow } from 'shared/ui/buttons/BackForwardButton/ButtonWithArrow';
+import { stepToIndex } from 'pages/journalImport/import/lib/steps';
 import {
     fileSettingsData,
     saveFileSettings,
-} from "pages/file-settings/FileSettings";
-import { useState } from "react";
+} from 'pages/journalImport/file-settings/FileSettings';
+import { useState } from 'react';
 
 const Import: FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [isSaving, setIsSaving] = useState(false);
-    const pathSegments = location.pathname.split("/");
+    const pathSegments = location.pathname.split('/');
     const currentPage =
-        pathSegments.length > 1 ? pathSegments[pathSegments.length - 1] : "";
+        pathSegments.length > 1 ? pathSegments[pathSegments.length - 1] : '';
 
     const currentStepIndex = stepToIndex[currentPage] || 0;
     const isFirstStep = currentStepIndex === 0;
     const isLastStep = currentStepIndex === 3;
-    const isFileSettingsPage = currentPage === "file-settings";
+    const isFileSettingsPage = currentPage === 'file-settings';
 
     const handleBack = () => {
         if (isFirstStep) return;
@@ -51,7 +51,7 @@ const Import: FC = () => {
                 );
                 navigate(`/import/${nextStep}`);
             } catch (error) {
-                console.error("Ошибка при сохранении настроек файла:", error);
+                console.error('Ошибка при сохранении настроек файла:', error);
                 // Здесь можно добавить отображение ошибки для пользователя
             } finally {
                 setIsSaving(false);

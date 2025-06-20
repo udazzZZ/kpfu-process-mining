@@ -1,30 +1,32 @@
-import type { ChangeEventHandler, FC } from 'react';
+import type { FC } from 'react';
 
 import styles from './TextField.module.css';
+import clsx from 'clsx';
 
-type TextFieldProps = {
-    className?: string;
+type TextFieldProps = React.DetailedHTMLProps<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+> & {
     label?: string;
-    placeholder?: string;
-    onChange: ChangeEventHandler<HTMLInputElement>;
-    value?: string;
+    isError?: boolean;
 };
 
 export const TextField: FC<TextFieldProps> = ({
-    placeholder,
     label,
     onChange,
-    value,
+    isError,
+    ...props
 }) => {
     return (
         <div className={styles.inputContainer}>
             {label && <label>{label}</label>}
             <input
                 onChange={onChange}
-                className={styles.input}
+                className={clsx(styles.input, {
+                    [styles.isError]: isError,
+                })}
                 type="text"
-                placeholder={placeholder}
-                value={value}
+                {...props}
             />
         </div>
     );

@@ -13,17 +13,15 @@ export type RegisterBody = {
 
 export type RegisterResponse = {
     id: number;
-} & RegisterBody;
+} & Omit<RegisterBody, 'password'>;
 
-export type RegisterPayload = {
-    body: RegisterBody;
-};
+export const register = async (body: RegisterBody) => {
+    const { username, password } = body;
 
-export const register = async ({ body }: RegisterPayload) => {
-    const {
-        data,
-        data: { username, password },
-    } = await apiPost<RegisterResponse, RegisterBody>('auth/users/', body);
+    const { data } = await apiPost<RegisterResponse, RegisterBody>(
+        'auth/users/',
+        body
+    );
 
     const {
         data: { access, refresh },
