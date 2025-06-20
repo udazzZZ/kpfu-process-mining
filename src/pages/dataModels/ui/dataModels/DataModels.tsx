@@ -26,11 +26,9 @@ const DataModels: React.FC = () => {
     const [search, setSearch] = useState('');
     const [sortKey, setSortKey] = useState<'name' | 'date'>('date');
 
+
     const handleCardClick = (id: string) => {
         // TODO: навигация на страницу модели
-    };
-    const handleCreateClick = () => {
-        navigate('/import/journal');
     };
 
     return (
@@ -40,7 +38,6 @@ const DataModels: React.FC = () => {
                 models={models}
                 isLoading={isLoading}
                 onCardClick={handleCardClick}
-                onCreateClick={handleCreateClick}
             />
         </div>
     );

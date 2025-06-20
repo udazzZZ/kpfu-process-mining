@@ -1,17 +1,18 @@
-import { lazy, Suspense } from 'react';
-import { createBrowserRouter, redirect } from 'react-router';
-import { ROUTES } from 'shared/constants';
+import Model from "pages/model";
+import { lazy, Suspense } from "react";
+import { createBrowserRouter, redirect } from "react-router";
+import { ROUTES } from "shared/constants";
 
-const AuthPage = lazy(async () => await import('pages/authorization'));
-const Login = lazy(async () => await import('pages/login'));
-const Register = lazy(async () => await import('pages/register'));
-const Models = lazy(async () => await import('pages/dataModels'));
-const ImportPage = lazy(async () => await import('pages/journalImport/import'));
+const AuthPage = lazy(async () => await import("pages/authorization"));
+const Login = lazy(async () => await import("pages/login"));
+const Register = lazy(async () => await import("pages/register"));
+const Models = lazy(async () => await import("pages/dataModels"));
+const ImportPage = lazy(async () => await import("pages/journalImport/import"));
 const JournalPage = lazy(
-    async () => await import('pages/journalImport/journal')
+    async () => await import("pages/journalImport/journal")
 );
 const SettingsPage = lazy(
-    async () => await import('pages/journalImport/fileSettings')
+    async () => await import("pages/journalImport/fileSettings")
 );
 const MarksPage = lazy(async () => await import('pages/journalImport/marks'));
 const FinalPage = lazy(async () => await import('pages/journalImport/final'));
@@ -84,12 +85,18 @@ const routerElements = {
             <ProcessMap />
         </Suspense>
     ),
+
+    [ROUTES.MODEL_PATH]: (
+        <Suspense>
+            <Model />
+        </Suspense>
+    ),
 };
 
 export const createMainRouter = (isAuthenticated: boolean) =>
     createBrowserRouter([
         {
-            path: '/',
+            path: "/",
             loader: () =>
                 redirect(
                     isAuthenticated
@@ -120,7 +127,17 @@ export const createMainRouter = (isAuthenticated: boolean) =>
         },
 
         {
-            path: ROUTES.IMPORT_PATH,
+            path: ROUTES.MODELS_PATH,
+            element: routerElements[ROUTES.MODELS_PATH],
+        },
+
+        {
+            path: `${ROUTES.MODELS_PATH}/${ROUTES.MODEL_PATH}`,
+            element: routerElements[ROUTES.MODEL_PATH],
+        },
+
+        {
+            path: `${ROUTES.MODELS_PATH}/${ROUTES.MODEL_PATH}/${ROUTES.IMPORT_PATH}`,
             element: routerElements[ROUTES.IMPORT_PATH],
             children: [
                 {

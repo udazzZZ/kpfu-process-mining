@@ -10,6 +10,7 @@ export const ROUTES = {
     FINAL_PATH: 'final',
     PROJECTS_PATH: '/projects',
     PROCESSMAP_PATH: "/processmap",
+    MODEL_PATH: ":model",
 } as const;
 
 export type RoutesTypes = keyof typeof ROUTES;

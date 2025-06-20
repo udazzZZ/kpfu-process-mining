@@ -1,11 +1,11 @@
-import { store } from 'app/store/store';
-import { StrictMode } from 'react';
-import { Provider } from 'react-redux';
+import { store } from "app/store/store";
+import { StrictMode } from "react";
+import { Provider } from "react-redux";
 
-import './css/index.css';
-import { RouterProvider } from 'react-router/dom';
-import { createMainRouter } from 'app/router/router';
-import { getAccessToken } from 'shared/api/instance/instance.tokens';
+import "./css/index.css";
+import { RouterProvider } from "react-router/dom";
+import { createMainRouter } from "app/router/router";
+import { getAccessToken } from "shared/api/instance/instance.tokens";
 
 const App = () => {
     const isAuthenticated = !!getAccessToken();
