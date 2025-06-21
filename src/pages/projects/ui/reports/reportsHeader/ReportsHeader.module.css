@@ -1,0 +1,11 @@
+.header {
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+}
+
+.headerTitle {
+    color: var(--text-gray);
+    font-size: 20px;
+    font-weight: 500;
+}

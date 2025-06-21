@@ -1,0 +1,9 @@
+.container {
+    background-color: var(--accent-skyblue);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    padding: 8px 16px 8px 8px;
+    border-radius: 6px;
+    width: 100px;
+}

@@ -1,0 +1,15 @@
+.button {
+    width: 24px;
+    height: 24px;
+    background-color: var(--accent-blue);
+    color: var(--text-white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    &:hover {
+        filter: brightness(0.9);
+    }
+}

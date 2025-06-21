@@ -1,0 +1,17 @@
+@import 'normalize.css';
+@import 'colors.css';
+@import 'fonts.css';
+
+* {
+    box-sizing: border-box;
+    color: var(--text);
+    margin: 0;
+}
+
+body {
+    background-color: var(--bg-gray);
+}
+
+#root {
+    height: 100vh;
+}

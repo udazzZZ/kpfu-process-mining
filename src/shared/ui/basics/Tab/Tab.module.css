@@ -1,0 +1,50 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    padding: 16px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+
+    cursor: pointer;
+
+    border-radius: 5px;
+
+    &:hover {
+        background-color: var(--accent-skyblue);
+    }
+}
+
+.containerColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+}
+
+.subtitle {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-gray);
+}
+
+.containerActive {
+    background-color: var(--accent-skyblue);
+    border-radius: 5px;
+    border-left: 6px solid var(--accent-blue);
+}
+
+.containerDone {
+    background-color: var(--bg-gray-dark);
+    border-radius: 5px;
+}
+
+.daw {
+    width: 16px;
+    height: 12px;
+}

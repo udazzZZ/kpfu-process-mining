@@ -1,0 +1,1 @@
+export const DEFAULT_Z_INDEX_CONTENT_IN_PORTAL = 1000;

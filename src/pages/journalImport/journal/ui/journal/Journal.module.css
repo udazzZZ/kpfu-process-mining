@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    background-color: var(--bg-panel);
+    padding: 16px;
+    border-radius: 11px;
+    box-shadow: 0 4px 4px -4px rgba(12, 12, 13, 0.05),
+        0 16px 32px -4px rgba(12, 12, 13, 0.1);
+    height: 100%;
+    gap: 16px;
+}
+
+.memo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 50%;
+    border-left: 0.3px solid var(--text-gray);
+}

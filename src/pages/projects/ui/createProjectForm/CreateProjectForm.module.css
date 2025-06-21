@@ -1,0 +1,15 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+
+    padding: 36px;
+    background-color: var(--bg-panel);
+    border-radius: 11px;
+}
+
+.formInputs {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
