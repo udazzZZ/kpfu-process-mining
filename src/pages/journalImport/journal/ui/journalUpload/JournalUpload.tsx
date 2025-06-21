@@ -4,6 +4,8 @@ import styles from "./JournalUpload.module.css";
 import journalUpload from "public/upload-icon.svg";
 import { useNavigate, useParams } from "react-router";
 import { uploadFile } from "shared/api/endpoints/file";
+import { useAppDispatch } from "shared/hooks/useAppDispatch";
+import { uploadFileAsync } from "entities/fileUpload/model/asyncThunks/uploadFileAsync";
 
 const JournalUpload: FC = () => {
     const [fileName, setFileName] = useState<string | null>(null);
@@ -13,6 +15,7 @@ const JournalUpload: FC = () => {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
     const params = useParams();
+    const dispatch = useAppDispatch();
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
@@ -61,10 +64,7 @@ const JournalUpload: FC = () => {
 
         try {
             setIsLoading(true);
-            await uploadFile({
-                file,
-                modelId: params.model,
-            });
+            dispatch(uploadFileAsync({ file: file, modelId: params.model }));
             navigate(`/models/${params.model}/import/file-settings`);
         } catch (error) {
             console.error("Ошибка при загрузке файла:", error);
