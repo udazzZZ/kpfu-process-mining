@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
+    "@xyflow/react": "^12.7.0",
     "axios": "^1.10.0",
     "clsx": "^2.1.1",
     "normalize.css": "^8.0.1",

@@ -5,7 +5,7 @@ import { TextField } from 'shared/ui/fields';
 import { BasicButton } from 'shared/ui/buttons';
 import { useAppSelector } from 'shared/hooks/useAppSelector';
 import { dataModelsModel } from 'entities/dataModels';
-import { selectCurrentProjectId } from '../../../../model/selectors';
+import { selectCurrentProjectId } from '../../../model/selectors';
 
 import styles from './CreateReportForm.module.css';
 import { createReportAsync } from 'pages/projects/model/asyncThunks/createReportAsync';
