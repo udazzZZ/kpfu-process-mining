@@ -19,7 +19,7 @@ export const FastStartButton: FC = () => {
             <div className={styles.text}>
                 <p className={styles.title}>Быстрый старт</p>
                 <p className={styles.subtitle}>
-                    Загрузить логи в формате scv и начать работу
+                    Загрузить логи в формате CSV или XLSX и начать работу
                 </p>
             </div>
             <button onClick={onButtonClickHandler} className={styles.button}>

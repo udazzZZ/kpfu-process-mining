@@ -3,6 +3,7 @@ import { useState, useRef } from "react";
 import styles from "./JournalUpload.module.css";
 import journalUpload from "public/upload-icon.svg";
 import { useNavigate, useParams } from "react-router";
+import { uploadFile } from "shared/api/endpoints/file";
 
 const JournalUpload: FC = () => {
     const [fileName, setFileName] = useState<string | null>(null);
@@ -56,26 +57,15 @@ const JournalUpload: FC = () => {
     };
 
     const handleUpload = async () => {
-        if (!file) return;
+        if (!file || !params.model) return;
 
         try {
             setIsLoading(true);
-            // Здесь будет код для отправки файла на сервер
-            // Например, с использованием FormData и fetch
-
-            // Пример:
-            // const formData = new FormData();
-            // formData.append('file', file);
-            // const response = await fetch('/api/upload', {
-            //    method: 'POST',
-            //    body: formData
-            // });
-
-            // Если загрузка успешна, перенаправляем на следующий шаг
-            setTimeout(() => {
-                setIsLoading(false);
-                navigate(`/models/${params.model}/import/file-settings`);
-            }, 1000);
+            await uploadFile({
+                file,
+                modelId: params.model,
+            });
+            navigate(`/models/${params.model}/import/file-settings`);
         } catch (error) {
             console.error("Ошибка при загрузке файла:", error);
             setIsLoading(false);
