@@ -9,14 +9,22 @@ import { useAppDispatch } from 'shared/hooks/useAppDispatch';
 import { useEffect } from 'react';
 import { fetchReportsAsync } from 'pages/projects/model/asyncThunks/fetchReportsAsync';
 import { Card } from 'shared/ui/basics';
-import { CreateReportButton } from './CreateReportButton';
+import { CreateReportButton } from '../CreateReportButton';
 import { dataModelsModel } from 'entities/dataModels';
+import { useNavigate } from 'react-router';
+import { ROUTES } from 'shared/constants';
 
 export const Reports = () => {
     const dispatch = useAppDispatch();
 
     const currentProjectId = useAppSelector(selectCurrentProjectId);
     const reports = useAppSelector(selectDataReports);
+
+    const navigate = useNavigate();
+
+    const onSelectReportHandler = () => {
+        navigate(ROUTES.PROCESSMAP_PATH);
+    };
 
     useEffect(() => {
         if (currentProjectId) {
@@ -27,10 +35,6 @@ export const Reports = () => {
     useEffect(() => {
         dispatch(dataModelsModel.thunks.getModelsAsync());
     }, [dispatch]);
-
-    const onSelectReportHandler = () => {
-        console.log('report selected');
-    };
 
     return (
         <div className={styles.container}>

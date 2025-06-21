@@ -1,1 +1,1 @@
-export { default } from "./ui/ProcessMap";
+export { default } from './ui/processMap/ProcessMap';
