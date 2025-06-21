@@ -51,25 +51,25 @@ const routerElements = {
     ),
 
     [ROUTES.JOURNAL_PATH]: (
-        <Suspense>
+        <Suspense fallback="Загрузка...">
             <JournalPage />
         </Suspense>
     ),
 
     [ROUTES.FILE_SETTINGS_PATH]: (
-        <Suspense>
+        <Suspense fallback="Загрузка...">
             <SettingsPage />
         </Suspense>
     ),
 
     [ROUTES.MARKS_PATH]: (
-        <Suspense>
+        <Suspense fallback="Загрузка...">
             <MarksPage />
         </Suspense>
     ),
 
     [ROUTES.FINAL_PATH]: (
-        <Suspense>
+        <Suspense fallback="Загрузка...">
             <FinalPage />
         </Suspense>
     ),
