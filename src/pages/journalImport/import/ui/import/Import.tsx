@@ -7,16 +7,29 @@ import { stepToIndex } from "pages/journalImport/import/lib/steps";
 
 import { useState } from "react";
 import Header from "shared/ui/header/Header";
+import { fileSettingsData } from "pages/journalImport/fileSettings/FileSettings";
+import { marksData } from "pages/journalImport/marks/Marks";
+import { useAppSelector } from "shared/hooks/useAppSelector";
+import { useAppDispatch } from "shared/hooks/useAppDispatch";
 import {
-    fileSettingsData,
-    saveFileSettings,
-} from "pages/journalImport/fileSettings/FileSettings";
+    selectFileId,
+    selectIsConfigSaving,
+    selectColumnsConfig,
+    selectConfigSaveError,
+} from "entities/fileUpload/model/selectors";
+import { saveFileConfigAsync } from "entities/fileUpload/model/asyncThunks/saveFileConfigAsync";
 
 const Import: FC = () => {
     const navigate = useNavigate();
     const params = useParams();
     const location = useLocation();
-    const [isSaving, setIsSaving] = useState(false);
+    const dispatch = useAppDispatch();
+    const fileId = useAppSelector(selectFileId);
+    const isConfigSaving = useAppSelector(selectIsConfigSaving);
+    const columnsConfig = useAppSelector(selectColumnsConfig);
+    const configSaveError = useAppSelector(selectConfigSaveError);
+    const [error, setError] = useState<string | null>(null);
+
     const pathSegments = location.pathname.split("/");
     const currentPage =
         pathSegments.length > 1 ? pathSegments[pathSegments.length - 1] : "";
@@ -25,6 +38,7 @@ const Import: FC = () => {
     const isFirstStep = currentStepIndex === 0;
     const isLastStep = currentStepIndex === 3;
     const isFileSettingsPage = currentPage === "file-settings";
+    const isMarksPage = currentPage === "marks";
 
     const handleBack = () => {
         if (isFirstStep) return;
@@ -36,33 +50,45 @@ const Import: FC = () => {
 
     const handleForward = async () => {
         if (isLastStep) return;
+        setError(null);
 
-        // Если мы на странице настройки файла, сначала сохраняем настройки
-        if (isFileSettingsPage && fileSettingsData.isDataReady) {
-            setIsSaving(true);
+        // Получаем следующий шаг
+        const nextStep = Object.keys(stepToIndex).find(
+            (step) => stepToIndex[step] === currentStepIndex + 1
+        );
+
+        // Если мы на странице marks (где устанавливаются роли колонок),
+        // тогда сохраняем все настройки на сервере
+        if (isMarksPage && fileId) {
+            if (!marksData.isDataReady) {
+                setError(
+                    "Необходимо указать как минимум идентификатор экземпляра (case_id), имя события (activity) и временную метку (timestamp)."
+                );
+                return;
+            }
 
             try {
-                await saveFileSettings(
-                    fileSettingsData.columnTypes,
-                    fileSettingsData.fileInfoId
-                );
+                // Сохраняем настройки через Redux
+                await dispatch(saveFileConfigAsync({ fileId })).unwrap();
 
                 // Переходим к следующему шагу после успешного сохранения
-                const nextStep = Object.keys(stepToIndex).find(
-                    (step) => stepToIndex[step] === currentStepIndex + 1
-                );
                 navigate(`/models/${params.model}/import/${nextStep}`);
             } catch (error) {
                 console.error("Ошибка при сохранении настроек файла:", error);
-                // Здесь можно добавить отображение ошибки для пользователя
-            } finally {
-                setIsSaving(false);
+                if (typeof error === "string") {
+                    setError(error);
+                } else if (
+                    error &&
+                    typeof error === "object" &&
+                    "message" in error
+                ) {
+                    setError(String(error.message));
+                } else {
+                    setError("Произошла ошибка при сохранении настроек файла");
+                }
             }
         } else {
-            // Для других страниц просто переходим к следующему шагу
-            const nextStep = Object.keys(stepToIndex).find(
-                (step) => stepToIndex[step] === currentStepIndex + 1
-            );
+            // Для других страниц просто переходим к следующему шагу без сохранения
             navigate(`/models/${params.model}/import/${nextStep}`);
         }
     };
@@ -74,17 +100,20 @@ const Import: FC = () => {
                 <SidePanel />
                 <div className={styles.importContainer}>
                     <Outlet />
+                    {error && (
+                        <div className={styles.errorMessage}>{error}</div>
+                    )}
                     <div className={styles.buttonsContainer}>
                         <ButtonWithArrow
                             direction="left"
                             onClick={handleBack}
-                            disabled={isFirstStep || isSaving}
+                            disabled={isFirstStep || isConfigSaving}
                         />
                         <ButtonWithArrow
                             direction="right"
                             onClick={handleForward}
-                            disabled={isLastStep || isSaving}
-                            loading={isSaving}
+                            disabled={isLastStep || isConfigSaving}
+                            loading={isConfigSaving}
                         />
                     </div>
                 </div>

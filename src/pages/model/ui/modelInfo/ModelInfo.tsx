@@ -18,11 +18,11 @@ export const ModelInfo: FC = () => {
             </div>
             <div className={styles.infoContainer}>
                 <p className={styles.subtitle}>Количество событий</p>
-                <p className={styles.info}>839</p>
+                <p className={styles.info}>0</p>
             </div>
             <div className={styles.infoContainer}>
                 <p className={styles.subtitle}>Количество процессов</p>
-                <p className={styles.info}>13600</p>
+                <p className={styles.info}>0</p>
             </div>
             <button className={styles.button}>
                 <img src={trashIcon}></img>

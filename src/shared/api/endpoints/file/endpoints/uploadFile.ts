@@ -1,15 +1,15 @@
 import { apiPost } from "shared/api/methods";
-import type { UploadFileRequest } from "../types";
+import type { UploadFileRequest, UploadFileResponse } from "../types";
 
 export const uploadFile = async ({
     file,
     modelId,
-}: UploadFileRequest): Promise<undefined> => {
+}: UploadFileRequest): Promise<UploadFileResponse> => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("model_data", modelId);
 
-    const data  = await apiPost(
+    const response = await apiPost<UploadFileResponse>(
         "api/v1/data/filemetadata/",
         formData,
         {
@@ -18,4 +18,6 @@ export const uploadFile = async ({
             },
         }
     );
+
+    return response.data;
 };

@@ -1,24 +1,60 @@
-import { useState, useEffect, useRef, useContext } from "react";
+import { useState, useEffect, useRef, useContext, createContext } from "react";
 import type { FC } from "react";
 import styles from "./FileSettings.module.css";
 import { useNavigate } from "react-router";
+import { useAppSelector } from "shared/hooks/useAppSelector";
+import {
+    selectFile,
+    selectFileId,
+    selectColumnsConfig,
+    selectIsConfigSaving,
+} from "entities/fileUpload/model/selectors";
+import { useAppDispatch } from "shared/hooks/useAppDispatch";
+import { getFilePreviewAsync } from "entities/fileUpload/model/asyncThunks/getFilePreviewAsync";
+import { setColumnType } from "entities/fileUpload/model/slice";
+import type { UpdateFileConfigRequest } from "shared/api/endpoints/file/types";
+import { ColumnDataType } from "shared/api/endpoints/file/types";
+import { updateFileConfigAsync } from "entities/fileUpload/model/asyncThunks/updateFileConfigAsync";
+import { store } from "app/store/store";
 
-// Перечисление доступных типов данных
+// Перечисление доступных типов данных для обратной совместимости
 enum ColumnType {
     NUMBER = "NUMBER",
     STRING = "STRING",
     DATETIME = "DATETIME",
+    BOOLEAN = "BOOLEAN",
 }
 
-// Типы для данных
-interface FilePreviewData {
-    data: Array<Array<string | number>>;
-    columns: string[];
-    file_info: {
-        id: number;
-    };
-    rows_count: number;
-}
+// Отображение между старыми и новыми типами для обратной совместимости
+const mapColumnTypeToApiType = (type: ColumnType): ColumnDataType => {
+    switch (type) {
+        case ColumnType.NUMBER:
+            return ColumnDataType.NUMBER;
+        case ColumnType.STRING:
+            return ColumnDataType.STRING;
+        case ColumnType.DATETIME:
+            return ColumnDataType.DATETIME;
+        case ColumnType.BOOLEAN:
+            return ColumnDataType.BOOLEAN;
+        default:
+            return ColumnDataType.STRING;
+    }
+};
+
+const mapApiTypeToColumnType = (type: ColumnDataType): ColumnType => {
+    switch (type) {
+        case ColumnDataType.NUMBER:
+            return ColumnType.NUMBER;
+        case ColumnDataType.STRING:
+            return ColumnType.STRING;
+        case ColumnDataType.DATETIME:
+            return ColumnType.DATETIME;
+        case ColumnDataType.BOOLEAN:
+            return ColumnType.BOOLEAN;
+        default:
+            return ColumnType.STRING;
+    }
+};
 
 // Создаем контекст для доступа к типам колонок извне
 export interface FileSettingsContextType {
@@ -27,216 +63,76 @@ export interface FileSettingsContextType {
     isDataReady: boolean;
 }
 
-// Экспортируем функцию для сохранения настроек, чтобы ее можно было вызвать из родительского компонента
+// Создаем контекст для настроек файла
+export const FileSettingsContext = createContext<FileSettingsContextType>({
+    columnTypes: {},
+    fileInfoId: undefined,
+    isDataReady: false,
+});
+
+// Для обратной совместимости, эти экспорты нужны другим компонентам
+export const fileSettingsData: FileSettingsContextType = {
+    columnTypes: {},
+    fileInfoId: undefined,
+    isDataReady: false,
+};
+
+// Функция для сохранения настроек файла
 export const saveFileSettings = async (
     columnTypes: Record<number, ColumnType>,
     fileId?: number
 ): Promise<boolean> => {
-    // Здесь будет запрос к API для сохранения настроек колонок
-    console.log(
-        "Сохранение настроек колонок:",
-        columnTypes,
-        "для файла:",
-        fileId
-    );
+    if (!fileId) return false;
 
-    // Имитация успешного сохранения
-    return new Promise((resolve) => {
-        setTimeout(() => resolve(true), 500);
+    // Преобразуем старый формат в новый для API
+    const columnsConfig: Record<string, { type: ColumnDataType }> = {};
+
+    Object.entries(columnTypes).forEach(([index, type]) => {
+        // Предполагаем, что в Redux store мы имеем доступ к именам колонок через file.columns
+        const state = store.getState();
+        const file = state.fileReducer.currentFile;
+
+        if (file && file.columns && file.columns[Number(index)]) {
+            const columnName = file.columns[Number(index)];
+            columnsConfig[columnName] = {
+                type: mapColumnTypeToApiType(type),
+            };
+        }
     });
-};
 
-// Расширенные моковые данные с большим количеством колонок для демонстрации горизонтального скролла
-const mockFilePreviewData: FilePreviewData = {
-    data: [
-        [
-            1,
-            "Главная страница",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
-        ],
-        [
-            2,
-            "Поиск",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
-        ],
-        [
-            3,
-            "Страница товара",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
-        ],
-        [
-            5,
-            "Корзина",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
-        ],
-        [
-            6,
-            "Оформление заказа",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
-        ],
-        [
-            7,
-            "Личный кабинет",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
-        ],
-        [
-            9,
-            "История заказов",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
-        ],
-        [
-            10,
-            "Настройки",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
-        ],
-        [
-            11,
-            "Контакты",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
-        ],
-        [
-            12,
-            "Часто задаваемые вопросы",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
-        ],
-        [
-            13,
-            "О компании",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
-        ],
-        [
-            14,
-            "Акции",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
-        ],
-        [
-            15,
-            "Доставка",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
-        ],
-        [
-            16,
-            "Оплата",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
-        ],
-        [
-            17,
-            "Гарантия",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
-        ],
-        [
-            18,
-            "Возврат",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
-        ],
-        [
-            19,
-            "Сервис",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
-        ],
-        [
-            20,
-            "Бренды",
-            "2021-01-09 05:01:19",
-            "Нет",
-            "Дополнительно 1",
-            "Дополнительно 2",
-            "Дополнительно 3",
-        ],
-    ],
-    columns: [
-        "ID",
-        "Страница",
-        "Дата и время",
-        "Вход выполнен",
-        "Дополнительно 1",
-        "Дополнительно 2",
-        "Дополнительно 3",
-    ],
-    file_info: {
-        id: 123,
-    },
-    rows_count: 18,
+    // Формируем данные для запроса
+    const requestData: UpdateFileConfigRequest = {
+        columns_config: columnsConfig,
+    };
+
+    // Отправляем запрос через Redux thunk
+    try {
+        await store.dispatch(
+            updateFileConfigAsync({
+                fileId,
+                data: requestData,
+            })
+        );
+        return true;
+    } catch (error) {
+        console.error("Error saving file settings:", error);
+        return false;
+    }
 };
 
 // Определение типа колонки для лучшего отображения таблицы
-const getColumnClassByType = (type: ColumnType, columnName: string): string => {
+const getColumnClassByType = (
+    type: ColumnDataType,
+    columnName: string
+): string => {
     if (
-        type === ColumnType.NUMBER &&
+        type === ColumnDataType.NUMBER &&
         (columnName === "ID" || columnName.toLowerCase().includes("id"))
     ) {
         return styles.smallColumn;
     }
 
-    if (type === ColumnType.DATETIME) {
+    if (type === ColumnDataType.DATETIME) {
         return styles.mediumColumn;
     }
 
@@ -255,40 +151,40 @@ const getColumnClassByType = (type: ColumnType, columnName: string): string => {
 // Интеллектуальное определение типа данных по значению
 const guessColumnType = (
     value: string | number | null | undefined
-): ColumnType => {
+): ColumnDataType => {
     if (typeof value === "number") {
-        return ColumnType.NUMBER;
+        return ColumnDataType.NUMBER;
     }
 
     if (typeof value === "string") {
         // Проверяем дату
         const datePattern = /^\d{4}-\d{2}-\d{2}([ T]\d{2}:\d{2}(:\d{2})?)?$/;
         if (datePattern.test(value) && !isNaN(Date.parse(value))) {
-            return ColumnType.DATETIME;
+            return ColumnDataType.DATETIME;
         }
 
         // Проверяем число
         if (/^-?\d+(\.\d+)?$/.test(value) && !isNaN(Number(value))) {
-            return ColumnType.NUMBER;
+            return ColumnDataType.NUMBER;
         }
     }
 
-    return ColumnType.STRING;
+    return ColumnDataType.STRING;
 };
 
 // Компонент выбора типа колонки
 const ColumnTypeSelector: FC<{
-    selectedType: ColumnType;
-    onChange: (type: ColumnType) => void;
+    selectedType: ColumnDataType;
+    onChange: (type: ColumnDataType) => void;
 }> = ({ selectedType, onChange }) => {
     return (
         <div className={styles.selectorContainer}>
             <select
                 className={styles.selector}
                 value={selectedType}
-                onChange={(e) => onChange(e.target.value as ColumnType)}
+                onChange={(e) => onChange(e.target.value as ColumnDataType)}
             >
-                {Object.values(ColumnType).map((type) => (
+                {Object.values(ColumnDataType).map((type) => (
                     <option key={type} value={type}>
                         {type}
                     </option>
@@ -298,40 +194,116 @@ const ColumnTypeSelector: FC<{
     );
 };
 
-// Экспортируем глобальные переменные для доступа извне
-export let fileSettingsData: FileSettingsContextType = {
-    columnTypes: {},
-    isDataReady: false,
-};
-
 export const FileSettings: FC = () => {
-    const [fileData, setFileData] = useState<FilePreviewData | null>(null);
-    const [columnTypes, setColumnTypes] = useState<Record<number, ColumnType>>(
-        {}
-    );
     const [isDataReady, setIsDataReady] = useState(false);
     const navigate = useNavigate();
     const tableWrapperRef = useRef<HTMLDivElement>(null);
+    const file = useAppSelector(selectFile);
+    const id = useAppSelector(selectFileId);
+    const columnsConfig = useAppSelector(selectColumnsConfig);
+    const isConfigSaving = useAppSelector(selectIsConfigSaving);
+
+    const dispatch = useAppDispatch();
+
+    const initColumnTypes = (data: typeof file) => {
+        data.columns.forEach((columnName) => {
+            // Определяем тип по первой непустой ячейке в колонке
+            if (data.data.length > 0) {
+                for (const rowItem of data.data) {
+                    // Безопасное преобразование типов с промежуточным unknown
+                    const rowObject = rowItem as unknown as Record<
+                        string,
+                        string | number | null
+                    >;
+                    const cellValue = rowObject[columnName];
+
+                    if (
+                        cellValue !== null &&
+                        cellValue !== undefined &&
+                        cellValue !== ""
+                    ) {
+                        const guessedType = guessColumnType(cellValue);
+
+                        // Устанавливаем тип колонки в Redux store
+                        dispatch(
+                            setColumnType({
+                                columnName,
+                                type: guessedType,
+                            })
+                        );
+                        break;
+                    }
+                }
+
+                // Если не смогли определить тип, устанавливаем STRING по умолчанию
+                if (!columnsConfig[columnName]) {
+                    dispatch(
+                        setColumnType({
+                            columnName,
+                            type: ColumnDataType.STRING,
+                        })
+                    );
+                }
+            } else {
+                dispatch(
+                    setColumnType({
+                        columnName,
+                        type: ColumnDataType.STRING,
+                    })
+                );
+            }
+        });
+
+        setIsDataReady(true);
+
+        // Обновляем экспортируемые данные для обратной совместимости
+        const columnTypesForCompatibility: Record<number, ColumnType> = {};
+        data.columns.forEach((columnName, index) => {
+            if (columnsConfig[columnName]) {
+                columnTypesForCompatibility[index] = mapApiTypeToColumnType(
+                    columnsConfig[columnName].type
+                );
+            } else {
+                columnTypesForCompatibility[index] = ColumnType.STRING;
+            }
+        });
+
+        fileSettingsData.columnTypes = columnTypesForCompatibility;
+        fileSettingsData.isDataReady = true;
+        fileSettingsData.fileInfoId = id ? Number(id) : undefined;
+    };
+
+    const handleColumnTypeChange = (
+        columnName: string,
+        type: ColumnDataType
+    ) => {
+        dispatch(setColumnType({ columnName, type }));
+
+        // Обновляем экспортируемые данные для обратной совместимости
+        if (file) {
+            const columnIndex = file.columns.findIndex(
+                (col) => col === columnName
+            );
+            if (columnIndex !== -1) {
+                fileSettingsData.columnTypes = {
+                    ...fileSettingsData.columnTypes,
+                    [columnIndex]: mapApiTypeToColumnType(type),
+                };
+            }
+        }
+    };
 
     useEffect(() => {
-        // Здесь будет запрос к API для получения данных файла
-        // Пример запроса:
-        // const fetchFileData = async () => {
-        //   try {
-        //     const response = await fetch(`/api/filemetadata/${fileId}/preview-data/`);
-        //     const data = await response.json();
-        //     setFileData(data);
-        //     initColumnTypes(data);
-        //   } catch (error) {
-        //     console.error("Ошибка при загрузке данных файла:", error);
-        //   }
-        // };
-        // fetchFileData();
+        if (file?.columns?.length > 0 && !isDataReady) {
+            initColumnTypes(file);
+        }
+    }, [file, dispatch]);
 
-        // Сейчас используем моковые данные
-        setFileData(mockFilePreviewData);
-        initColumnTypes(mockFilePreviewData);
-    }, []);
+    useEffect(() => {
+        if (id) {
+            dispatch(getFilePreviewAsync({ id }));
+        }
+    }, [dispatch, id]);
 
     // Обработчик скролла для проверки работы sticky header
     useEffect(() => {
@@ -363,58 +335,15 @@ export const FileSettings: FC = () => {
                 tableWrapper.removeEventListener("scroll", handleScroll);
             }
         };
-    }, [fileData]);
+    }, [file]);
 
-    // Обновляем глобальные данные при изменении состояния
-    useEffect(() => {
-        if (fileData) {
-            fileSettingsData = {
-                columnTypes,
-                fileInfoId: fileData.file_info.id,
-                isDataReady: isDataReady,
-            };
-        }
-    }, [columnTypes, fileData, isDataReady]);
-
-    const initColumnTypes = (data: FilePreviewData) => {
-        const initialColumnTypes: Record<number, ColumnType> = {};
-        data.columns.forEach((_, index) => {
-            // Определяем тип по первой непустой ячейке в колонке
-            if (data.data.length > 0) {
-                for (const row of data.data) {
-                    if (
-                        row[index] !== null &&
-                        row[index] !== undefined &&
-                        row[index] !== ""
-                    ) {
-                        initialColumnTypes[index] = guessColumnType(row[index]);
-                        break;
-                    }
-                }
-
-                // Если не смогли определить тип, устанавливаем STRING по умолчанию
-                if (!(index in initialColumnTypes)) {
-                    initialColumnTypes[index] = ColumnType.STRING;
-                }
-            } else {
-                initialColumnTypes[index] = ColumnType.STRING;
-            }
-        });
-
-        setColumnTypes(initialColumnTypes);
-        setIsDataReady(true);
-    };
-
-    const handleColumnTypeChange = (columnIndex: number, type: ColumnType) => {
-        setColumnTypes((prev) => ({
-            ...prev,
-            [columnIndex]: type,
-        }));
-    };
-
-    if (!fileData) {
+    if (!file) {
         return <div className={styles.loading}>Загрузка данных...</div>;
     }
+
+    const getColumnType = (columnName: string): ColumnDataType => {
+        return columnsConfig[columnName]?.type || ColumnDataType.STRING;
+    };
 
     return (
         <div className={styles.container}>
@@ -429,24 +358,21 @@ export const FileSettings: FC = () => {
                 <table className={styles.table}>
                     <thead>
                         <tr>
-                            {fileData.columns.map((column, index) => (
+                            {file.columns.map((column, index) => (
                                 <th
                                     key={index}
                                     className={getColumnClassByType(
-                                        columnTypes[index] || ColumnType.STRING,
+                                        getColumnType(column),
                                         column
                                     )}
                                 >
                                     <div className={styles.columnHeader}>
                                         <span>{column}</span>
                                         <ColumnTypeSelector
-                                            selectedType={
-                                                columnTypes[index] ||
-                                                ColumnType.STRING
-                                            }
+                                            selectedType={getColumnType(column)}
                                             onChange={(type) =>
                                                 handleColumnTypeChange(
-                                                    index,
+                                                    column,
                                                     type
                                                 )
                                             }
@@ -457,22 +383,41 @@ export const FileSettings: FC = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {fileData.data.map((row, rowIndex) => (
-                            <tr key={rowIndex}>
-                                {row.map((cell, cellIndex) => (
-                                    <td
-                                        key={cellIndex}
-                                        className={getColumnClassByType(
-                                            columnTypes[cellIndex] ||
-                                                ColumnType.STRING,
-                                            fileData.columns[cellIndex]
-                                        )}
-                                    >
-                                        {cell}
-                                    </td>
-                                ))}
-                            </tr>
-                        ))}
+                        {file.data.map((rowItem, rowIndex) => {
+                            // Безопасное приведение типа с промежуточным unknown
+                            const rowObject = rowItem as unknown as Record<
+                                string,
+                                string | number | null
+                            >;
+
+                            return (
+                                <tr key={rowIndex}>
+                                    {file.columns.map(
+                                        (columnName, cellIndex) => {
+                                            const cellValue =
+                                                rowObject[columnName];
+
+                                            return (
+                                                <td
+                                                    key={cellIndex}
+                                                    className={getColumnClassByType(
+                                                        getColumnType(
+                                                            columnName
+                                                        ),
+                                                        columnName
+                                                    )}
+                                                >
+                                                    {cellValue !== undefined &&
+                                                    cellValue !== null
+                                                        ? cellValue
+                                                        : "-"}
+                                                </td>
+                                            );
+                                        }
+                                    )}
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </table>
             </div>
